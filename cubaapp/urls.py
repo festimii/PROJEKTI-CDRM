@@ -1,11 +1,21 @@
 # from django.conf.urls import url
 from django.urls import path
-from . import views
+from . import views, viewscostum
+from .viewscostum import fetch_order_summaries
 
 
 urlpatterns = [
+#-------------------------COSTUM (HANDMADE)---------------------------------------
+path('order-summaries/', viewscostum.fetch_order_summaries, name='order_summaries'),
+path('order-chart/', viewscostum.fetch_order_summaries_total, name='order_summaries_total'),
 
-#-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
+
+
+
+
+
+
+    #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 path('', views.index, name="index"),
 path('index', views.index, name="index"),
 path('dashboard_02', views.dashboard_02, name="dashboard_02"),
