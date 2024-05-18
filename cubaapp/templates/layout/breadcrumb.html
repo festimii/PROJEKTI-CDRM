@@ -1,0 +1,102 @@
+{% load static %}
+<div class="page-title">
+  <div class="row align-items-center">
+    <div class="col-4">
+      <h3>{{breadcrumb.child}}</h3>
+    </div>
+    <div class="col-4 text-center">
+      <div class="filter-container d-flex justify-content-center align-items-center">
+        <div class="form-check form-switch me-3">
+          <input class="form-check-input" type="radio" id="ytd" name="filter" value="YTD" checked>
+          <label class="form-check-label" for="ytd">YTD</label>
+        </div>
+        <div class="form-check form-switch me-3">
+          <input class="form-check-input" type="radio" id="likeForLike" name="filter" value="Like for Like">
+          <label class="form-check-label" for="likeForLike">Like for Like</label>
+        </div>
+        <div class="form-check form-check-inline me-3">
+          <input class="form-check-input" type="radio" id="yearPicker" name="filter" value="Year Picker" data-bs-toggle="modal" data-bs-target="#yearPickerModal">
+          <label class="form-check-label" for="yearPicker">Year Picker</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-4 d-flex justify-content-end">
+      <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item">
+          <a href="/">
+            <svg class="stroke-icon">
+              <use href="{% static 'assets/svg/icon-sprite.svg'%}#stroke-home"></use>
+            </svg>
+          </a>
+        </li>
+        <li class="breadcrumb-item">{{breadcrumb.parent}}</li>
+        <li class="breadcrumb-item active">{{breadcrumb.child}}</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- Year Picker Modal -->
+<div class="modal fade" id="yearPickerModal" tabindex="-1" aria-labelledby="yearPickerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="yearPickerModalLabel">Select Year</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="yearPickerCalendar"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="selectYearButton">Select Year</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const ytdRadio = document.getElementById('ytd');
+    const likeForLikeRadio = document.getElementById('likeForLike');
+    const yearPickerRadio = document.getElementById('yearPicker');
+    const yearPickerModal = document.getElementById('yearPickerModal');
+    const selectYearButton = document.getElementById('selectYearButton');
+    const filterElements = [ytdRadio, likeForLikeRadio, yearPickerRadio];
+
+    // Initialize the year picker calendar
+    flatpickr("#yearPickerCalendar", {
+      plugins: [new flatpickr.plugins.yearSelectPlugin({})],
+      dateFormat: "Y",
+      onChange: function(selectedDates, dateStr, instance) {
+        selectYearButton.dataset.selectedYear = dateStr;
+      }
+    });
+
+    function updateFilters(event) {
+      if (event.target.id === 'yearPicker') {
+        // Open the modal if Year Picker is selected
+        new bootstrap.Modal(yearPickerModal).show();
+      }
+    }
+
+    filterElements.forEach(element => {
+      element.addEventListener('change', updateFilters);
+    });
+
+    // Select year button action
+    selectYearButton.addEventListener('click', function () {
+      const selectedYear = this.dataset.selectedYear;
+      if (selectedYear) {
+        console.log(`Year selected: ${selectedYear}`);
+        yearPickerRadio.value = selectedYear;
+        yearPickerRadio.checked = true;
+        new bootstrap.Modal(yearPickerModal).hide();
+      }
+    });
+  });
+</script>
+
+<!-- Include Flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/yearSelect/index.js"></script>
