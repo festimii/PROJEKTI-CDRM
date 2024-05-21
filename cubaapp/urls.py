@@ -4,10 +4,12 @@ from . import views, viewscostum
 from .viewscostum import fetch_order_summaries
 
 
+
 urlpatterns = [
 #-------------------------COSTUM (HANDMADE)---------------------------------------
 path('order-summaries/', viewscostum.fetch_order_summaries, name='order_summaries'),
 path('order-chart/', viewscostum.fetch_order_summaries_total, name='order_summaries_total'),
+path('order-status/', viewscostum.fetch_order_status_summary, name='order_summaries_status'),
 
 
 

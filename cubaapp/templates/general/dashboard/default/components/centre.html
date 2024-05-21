@@ -1,90 +1,98 @@
 {% load static %} {% load sass_tags %}
-<div class="col-xxl-8 col-lg-12 box-col-12">
+<div class="col-xxl-8 col-lg-12 box-col-12 position-relative">
   <div class="card">
-    <div class="card-header card-no-border"> 
+    <div class="card-header card-no-border d-flex justify-content-between align-items-center">
       <h5>Overall balance</h5>
+      <div class="dropdown icon-dropdown">
+        <button class="btn dropdown-toggle" id="dataFilterDropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="icon-more-alt"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dataFilterDropdown">
+          <a class="dropdown-item" href="#" data-filter="hourly">Hourly</a>
+          <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+          <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+        </div>
+      </div>
     </div>
     <div class="card-body pt-0">
       <div class="row m-0 overall-card">
-        <div class="col-xl-9 col-md-12 col-sm-7 p-0">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        <div class="col-xl-12 col-md-12 col-sm-12 p-0">
           <div class="chart-right">
             <div class="row">
               <div class="col-xl-12">
                 <div class="card-body p-0">
-                  <ul class="balance-data"> 
+                  <ul class="balance-data">
                     <li><span class="circle bg-warning"> </span><span class="f-light ms-1">Earning</span></li>
                     <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Expense</span></li>
                   </ul>
                   <div class="current-sale-container">
-                    <div id="chart-currently"></div>
+                    <div id="chart-currently1"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-md-12 col-sm-5 p-0">
+
+
+        <div id="TEST" class="col-xl-12 col-md-12 col-sm-12 p-0 mt-4">
           <div class="row g-sm-4 g-2">
-            <div class="col-xl-12 col-md-4">
-              <div class="light-card balance-card widget-hover">
-                <div class="svg-box">
-                  <svg class="svg-fill">
-                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#income"></use>
-                  </svg>
-                </div>
-                <div> <span class="f-light">Income</span>
-                  <h6 class="mt-1 mb-0">$22,678</h6>
-                </div>
-                <div class="ms-auto text-end">
-                  <div class="dropdown icon-dropdown">
-                    <button class="btn dropdown-toggle" id="incomedropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="incomedropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                  </div><span class="font-success">+$456</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-12 col-md-4">
-              <div class="light-card balance-card widget-hover">
-                <div class="svg-box">
-                  <svg class="svg-fill">
-                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#expense"></use>
-                  </svg>
-                </div>
-                <div> <span class="f-light">Expense</span>
-                  <h6 class="mt-1 mb-0">$12,057</h6>
-                </div>
-                <div class="ms-auto text-end">
-                  <div class="dropdown icon-dropdown">
-                    <button class="btn dropdown-toggle" id="expensedropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="expensedropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                  </div><span class="font-danger">+$256</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-12 col-md-4">
-              <div class="light-card balance-card widget-hover">
-                <div class="svg-box">
-                  <svg class="svg-fill">
-                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#doller-return"></use>
-                  </svg>
-                </div>
-                <div> <span class="f-light">Cashback</span>
-                  <h6 class="mt-1 mb-0">8,475</h6>
-                </div>
-                <div class="ms-auto text-end">
-                  <div class="dropdown icon-dropdown">
-                    <button class="btn dropdown-toggle" id="cashbackdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cashbackdropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            <div class="col-xl-4 col-md-4">
+      <div class="light-card balance-card widget-hover">
+        <div class="svg-box">
+          <svg class="svg-fill">
+            <use href="{% static 'assets/svg/icon-sprite.svg'%}#income"></use>
+          </svg>
+        </div>
+        <div> <span class="f-light">Horeca</span>
+          <h6 class="mt-1 mb-0" id="horeca-total">$0.00</h6>
+        </div>
+        <div class="ms-auto text-end">
+          <span class="font-success">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+          <div class="col-xl-4 col-md-4">
+      <div class="light-card balance-card widget-hover">
+        <div class="svg-box">
+          <svg class="svg-fill">
+            <use href="{% static 'assets/svg/icon-sprite.svg'%}#expense"></use>
+          </svg>
+        </div>
+        <div> <span class="f-light">Loyalty</span>
+          <h6 class="mt-1 mb-0" id="loyalty-total">$0.00</h6>
+        </div>
+        <div class="ms-auto text-end">
+          <span class="font-danger">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-4">
+      <div class="light-card balance-card widget-hover">
+        <div class="svg-box">
+          <svg class="svg-fill">
+            <use href="{% static 'assets/svg/icon-sprite.svg'%}#doller-return"></use>
+          </svg>
+        </div>
+        <div> <span class="f-light">Other</span>
+          <h6 class="mt-1 mb-0" id="other-total">$0.00</h6>
+        </div>
+        <div class="ms-auto text-end">
+          <span class="font-danger">Loading...</span>
+        </div>
+      </div>
+    </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="col-xxl-4 col-xl-7 col-md-6 col-sm-5 box-col-6">
   <div class="card height-equal"> 
     <div class="card-header card-no-border"> 
@@ -105,19 +113,55 @@
             <div id="recentchart"></div>
           </div>
         </div>
-        <div class="col-xl-6"> 
-          <ul class="order-content">
-            <li> <span class="recent-circle bg-primary"> </span>
-              <div> <span class="f-light f-w-500">Cancelled </span>
-                <h4 class="mt-1 mb-0">2,302<span class="f-light f-14 f-w-400 ms-1">(Last 6 Month) </span></h4>
-              </div>
-            </li>
-            <li> <span class="recent-circle bg-info"></span>
-              <div> <span class="f-light f-w-500">Delivered</span>
-                <h4 class="mt-1 mb-0">9,302<span class="f-light f-14 f-w-400 ms-1">(Last 6 Month) </span></h4>
-              </div>
-            </li>
-          </ul>
+        <div class="col-xl-6">
+
+      <ul class="order-content">
+    <li id="completed-order">
+        <span class="recent-circle bg-primary"></span>
+        <div>
+            <span class="f-light f-w-300">Completed</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+    <li id="stock-returned-order">
+        <span class="recent-circle bg-info"></span>
+        <div>
+            <span class="f-light f-w-300">Stock Returned</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+    <li id="canceled-order">
+        <span class="recent-circle bg-danger"></span>
+        <div>
+            <span class="f-light f-w-300">Cancelled</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+    <li id="on-hold-order">
+        <span class="recent-circle bg-warning"></span>
+        <div>
+            <span class="f-light f-w-300">On Hold</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+    <li id="in-progress-order">
+        <span class="recent-circle bg-success"></span>
+        <div>
+            <span class="f-light f-w-300">In Progress</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+    <li id="open-order">
+        <span class="recent-circle bg-secondary"></span>
+        <div>
+            <span class="f-light f-w-300">Open</span>
+            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+        </div>
+    </li>
+</ul>
+
+
+
         </div>
       </div>
     </div>
@@ -245,4 +289,291 @@
       </div>
     </div>
   </div>
-</div>
+</div><style>
+  .icon-dropdown {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+  var options = {
+    series: [
+      {
+        name: 'HORECA',
+        data: []
+      },
+      {
+        name: 'LOYALTY',
+        data: []
+      }
+    ],
+    chart: {
+      type: 'bar',
+      height: 300,
+      stacked: true,
+      toolbar: {
+        show: false,
+      },
+      dropShadow: {
+        enabled: true,
+        top: 8,
+        left: 0,
+        blur: 10,
+        color: '#7064F5',
+        opacity: 0.1
+      }
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '25px',
+        borderRadius: 0,
+      },
+    },
+    grid: {
+      show: true,
+      borderColor: 'var(--chart-border)',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      width: 2,
+      dashArray: 0,
+      lineCap: 'butt',
+      colors: "#fff",
+    },
+    fill: {
+      opacity: 1
+    },
+    legend: {
+      show: false
+    },
+    states: {
+      hover: {
+        filter: {
+          type: 'darken',
+          value: 1,
+        }
+      }
+    },
+    colors: ['#7366FF', '#AAAFCB'],
+    yaxis: {
+      tickAmount: 3,
+      labels: {
+        formatter: function (value) {
+          if (value >= 1000000) {
+            return (value / 1000000).toFixed(1) + 'M';
+          } else if (value >= 1000) {
+            return (value / 1000).toFixed(1) + 'K';
+          } else {
+            return value.toFixed(0);
+          }
+        },
+        show: true,
+        style: {
+          fontFamily: 'Rubik, sans-serif',
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    xaxis: {
+      categories: [],
+      labels: {
+        style: {
+          fontFamily: 'Rubik, sans-serif',
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 1661,
+        options: {
+          chart: {
+            height: 290,
+          }
+        }
+      },
+      {
+        breakpoint: 767,
+        options: {
+          plotOptions: {
+            bar: {
+              columnWidth: '35px',
+            },
+          },
+          yaxis: {
+            labels: {
+              show: true,
+            }
+          }
+        }
+      },
+      {
+        breakpoint: 481,
+        options: {
+          chart: {
+            height: 200,
+          }
+        }
+      },
+      {
+        breakpoint: 420,
+        options: {
+          chart: {
+            height: 170,
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '40px',
+            },
+          },
+        }
+      },
+    ]
+  };
+
+  async function fetchChartData() {
+    try {
+      const response = await fetch('/order-chart/?format=json');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return null;
+    }
+  }
+
+  async function initializeChart(filterType = 'hourly') {
+    const data = await fetchChartData();
+    if (!data) return;
+
+    let chartData = {
+      horeca: [],
+      loyalty: []
+    };
+    let categories = [];
+
+    if (filterType === 'hourly') {
+      categories = Array.from({ length: 24 }, (_, i) => i);
+      chartData.horeca = Array(24).fill(0);
+      chartData.loyalty = Array(24).fill(0);
+      data.hourly.forEach(item => {
+        const hour = new Date(item.period).getHours();
+        if (item.horeca !== undefined) chartData.horeca[hour] += item.horeca;
+        if (item.loyalty !== undefined) chartData.loyalty[hour] += item.loyalty;
+      });
+    } else if (filterType === 'daily') {
+      const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+      categories = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+      chartData.horeca = Array(daysInMonth).fill(0);
+      chartData.loyalty = Array(daysInMonth).fill(0);
+      data.daily.forEach(item => {
+        const day = new Date(item.period).getDate() - 1;
+        if (item.horeca !== undefined) chartData.horeca[day] += item.horeca;
+        if (item.loyalty !== undefined) chartData.loyalty[day] += item.loyalty;
+      });
+    } else if (filterType === 'monthly') {
+      categories = Array.from({ length: 12 }, (_, i) => i + 1);
+      chartData.horeca = Array(12).fill(0);
+      chartData.loyalty = Array(12).fill(0);
+      data.monthly.forEach(item => {
+        const month = new Date(item.period).getMonth();
+        if (item.horeca !== undefined) chartData.horeca[month] += item.horeca;
+        if (item.loyalty !== undefined) chartData.loyalty[month] += item.loyalty;
+      });
+    }
+
+    options.series[0].data = chartData.horeca;
+    options.series[1].data = chartData.loyalty;
+    options.xaxis.categories = categories;
+
+    var chart = new ApexCharts(document.querySelector("#chart-currently1"), options);
+    chart.render();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeChart();
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', (event) => {
+        const filterType = event.target.getAttribute('data-filter');
+        document.getElementById('dataFilterDropdown').textContent = event.target.textContent;
+        initializeChart(filterType);
+      });
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("http://localhost:8000/order-summaries/?format=json")
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          let formattedSum = formatNumber(parseFloat(item.total_sum));
+          if (item.order_type === "horeca") {
+            document.getElementById("horeca-total").innerText = formattedSum;
+          } else if (item.order_type === "loyalty") {
+            document.getElementById("loyalty-total").innerText = formattedSum;
+          } else {
+            document.getElementById("other-total").innerText = formattedSum;
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  });
+
+  function formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    } else {
+      return num.toString();
+    }
+  }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("http://localhost:8000/order-status/?format=json")
+      .then(response => response.json())
+      .then(data => {
+        data.status_summary.forEach(item => {
+          let formattedCount = formatNumber(item.count);
+          let elementId = `${item.status.replace(/-/g, ' ')}-order`.replace(/\s+/g, '-');
+          let element = document.getElementById(elementId);
+          if (element) {
+            element.querySelector('.count').innerText = formattedCount;
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  });
+
+  function formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    } else {
+      return num.toString();
+    }
+  }
+</script>

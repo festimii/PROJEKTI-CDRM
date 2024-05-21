@@ -1,18 +1,18 @@
 {% load static %}
 {% load sass_tags %}
 <div class="row widget-grid">
-<div class="col-xxl-4 col-sm-6 box-col-6">
-  <div class="card profile-box">
-    <div class="card-body">
+<div class="col-xxl-3 col-sm-5 box-col-5 ">
+  <div class="card profile-box gradient-bg">
+    <div class="card-body ">
       <div class="media">
-        <div class="media-body"> 
+        <div class="media-body">
           <div class="greeting-user">
-            <h4 class="f-w-600">Welcome to cuba</h4>
-            <p>Here whats happing in your account today</p>
-            <div class="whatsnew-btn"><a class="btn btn-outline-white">Whats New !</a></div>
+            <h4 class="f-w-600">Pershendetje {{ request.user.username }}</h4>
+            <p></p>
+            <div class="whatsnew-btn"><a class="btn btn-outline-white">SHIKO!</a></div>
           </div>
         </div>
-        <div>  
+        <div>
           <div class="clockbox">
             <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
               <g id="face">
@@ -41,32 +41,33 @@
     </div>
   </div>
 </div>
-<div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6"> 
-  <div class="row"> 
-    <div class="col-xl-12"> 
-      <div class="card widget-1">
-        <div class="card-body"> 
-          <div class="widget-content">
+<div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6">
+  <div class="row">
+    <div class="col-xl-12">
+ <div class="card widget-1 gradient-bg">
+    <div class="card-body">
+        <div class="widget-content">
             <div class="widget-round secondary">
-              <div class="bg-round">
-                <svg class="svg-fill">
-                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#cart"> </use>
-                </svg>
-                <svg class="half-circle svg-fill">
-                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#halfcircle"></use>
-                </svg>
-              </div>
+                <div class="bg-round">
+                    <svg class="svg-fill">
+                        <use href="{% static 'assets/svg/icon-sprite.svg'%}#cart"> </use>
+                    </svg>
+                    <svg class="half-circle svg-fill">
+                        <use href="{% static 'assets/svg/icon-sprite.svg'%}#halfcircle"></use>
+                    </svg>
+                </div>
             </div>
-            <div> 
-              <h4>10,000</h4><span class="f-light">Purchase</span>
+            <div>
+                <h4 id="incomeValue"></h4><span class="f-light">Blerje</span>
             </div>
-          </div>
-          <div class="font-secondary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+50%</span></div>
         </div>
-      </div>
-      <div class="col-xl-12"> 
-        <div class="card widget-1">
-          <div class="card-body"> 
+        <div class="font-secondary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+50%</span></div>
+    </div>
+ </div>
+
+      <div class="col-xl-12">
+        <div class="card widget-1 gradient-bg">
+          <div class="card-body">
             <div class="widget-content">
               <div class="widget-round primary">
                 <div class="bg-round">
@@ -78,8 +79,8 @@
                   </svg>
                 </div>
               </div>
-              <div> 
-                <h4>4,200</h4><span class="f-light">Sales</span>
+              <div>
+                <h4 id="cashbackValue"></h4><span class="f-light">Zbritje</span>
               </div>
             </div>
             <div class="font-primary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+70%</span></div>
@@ -88,12 +89,17 @@
       </div>
     </div>
   </div>
+
 </div>
-<div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6"> 
-  <div class="row"> 
-    <div class="col-xl-12"> 
-      <div class="card widget-1">
-        <div class="card-body"> 
+
+
+
+
+<div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card widget-1 gradient-bg">
+        <div class="card-body">
           <div class="widget-content">
             <div class="widget-round warning">
               <div class="bg-round">
@@ -105,16 +111,16 @@
                 </svg>
               </div>
             </div>
-            <div> 
-              <h4>7000</h4><span class="f-light">Sales return</span>
+            <div>
+              <h4 id="transactionValue"></h4><span class="f-light">Fatura</span>
             </div>
           </div>
           <div class="font-warning f-w-500"><i class="icon-arrow-down icon-rotate me-1"></i><span>-20%</span></div>
         </div>
       </div>
-      <div class="col-xl-12"> 
-        <div class="card widget-1">
-          <div class="card-body"> 
+      <div class="col-xl-12">
+        <div class="card widget-1 gradient-bg">
+          <div class="card-body">
             <div class="widget-content">
               <div class="widget-round success">
                 <div class="bg-round">
@@ -126,8 +132,8 @@
                   </svg>
                 </div>
               </div>
-              <div> 
-                <h4>5700</h4><span class="f-light">Purchase rate</span>
+              <div>
+                <h4 id="userswithmultiple"></h4><span class="f-light">Bleres te Perseritur</span>
               </div>
             </div>
             <div class="font-success f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+70%</span></div>
@@ -137,31 +143,137 @@
     </div>
   </div>
 </div>
-<div class="col-xxl-auto col-xl-12 col-sm-6 box-col-6">
-  <div class="row"> 
-    <div class="col-xxl-12 col-xl-6 box-col-12">
-      <div class="card widget-1 widget-with-chart">
-        <div class="card-body"> 
-          <div> 
-            <h4 class="mb-1">1,80k</h4><span class="f-light">Orders</span>
+
+    <div class="col-xxl-auto col-xl-3 col-sm-6 box-col-6">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card widget-1 gradient-bg">
+        <div class="card-body">
+          <div class="widget-content">
+            <div class="widget-round warning">
+              <div class="bg-round">
+                <svg class="svg-fill">
+                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#return-box"> </use>
+                </svg>
+                <svg class="half-circle svg-fill">
+                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#halfcircle"></use>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h4 id="transactionValue"></h4><span class="f-light">Fatura</span>
+            </div>
           </div>
-          <div class="order-chart"> 
-            <div id="orderchart"></div>
-          </div>
+          <div class="font-warning f-w-500"><i class="icon-arrow-down icon-rotate me-1"></i><span>-20%</span></div>
         </div>
       </div>
-    </div>
-    <div class="col-xxl-12 col-xl-6 box-col-12">
-      <div class="card widget-1 widget-with-chart">
-        <div class="card-body"> 
-          <div> 
-            <h4 class="mb-1">6,90k</h4><span class="f-light">Profit</span>
-          </div>
-          <div class="profit-chart"> 
-            <div id="profitchart"></div>
+      <div class="col-xl-12">
+        <div class="card widget-1 gradient-bg">
+          <div class="card-body">
+            <div class="widget-content">
+              <div class="widget-round success">
+                <div class="bg-round">
+                  <svg class="svg-fill">
+                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#rate"> </use>
+                  </svg>
+                  <svg class="half-circle svg-fill">
+                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#halfcircle"></use>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h4 id="userswithmultiple"></h4><span class="f-light">Bleres te Perseritur</span>
+              </div>
+            </div>
+            <div class="font-success f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+70%</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xxl-12 col-xl-6 box-col-12">
+    <div class="card">
+      <div class="card-header card-no-border">
+        <div class="header-top d-flex justify-content-between">
+          <h5 class="f-w-600">Total Users</h5>
+          <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+              <a class="dropdown-item" href="#">Weekly</a>
+              <a class="dropdown-item" href="#">Monthly</a>
+              <a class="dropdown-item" href="#">Yearly</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body pt-0 d-flex align-items-center justify-content-between">
+        <div class="user-stats">
+          <div class="d-flex align-items-center">
+            <div class="user-icon primary">
+              <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
+            </div>
+            <div class="text-end ms-2">
+              <h5 class="mb-1">178,098</h5>
+              <span class="font-primary d-flex align-items-center">
+                <i class="icon-arrow-up icon-rotate me-1"></i>
+                <span class="f-w-500">+30.89</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="user-stats">
+          <div class="d-flex align-items-center">
+            <div class="user-icon success">
+              <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
+            </div>
+            <div class="text-end ms-2">
+              <h5 class="mb-1">178,098</h5>
+              <span class="font-danger d-flex align-items-center">
+                <i class="icon-arrow-down icon-rotate me-1"></i>
+                <span class="f-w-500">-08.89</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gradient-bg1 {
+    background: linear-gradient(to left, #FFFFFF, #6DD5FA, #2980B9);
+    color: white;
+    border-radius: 1em;
+    padding: 1em;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .user-stats {
+    display: flex;
+    align-items: center;
+  }
+  .user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .text-end {
+    text-align: right;
+  }
+  .ms-2 {
+    margin-left: 0.5rem;
+  }
+</style>
