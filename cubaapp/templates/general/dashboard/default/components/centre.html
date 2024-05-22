@@ -36,7 +36,7 @@
 
 
         <div id="TEST" class="col-xl-12 col-md-12 col-sm-12 p-0 mt-4">
-          <div class="row g-sm-4 g-2">
+          <div class="row g-sm-4 g-2" style="padding-top: 10em;">
 
             <div class="col-xl-4 col-md-4">
       <div class="light-card balance-card widget-hover">
@@ -94,14 +94,21 @@
 </div>
 
 <div class="col-xxl-4 col-xl-7 col-md-6 col-sm-5 box-col-6">
-  <div class="card height-equal"> 
-    <div class="card-header card-no-border"> 
+  <div class="card height-equal">
+    <div class="card-header card-no-border">
       <div class="header-top">
         <h5>Recent Orders</h5>
         <div class="card-header-right-icon">
           <div class="dropdown icon-dropdown">
-            <button class="btn dropdown-toggle" id="recentdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentdropdown"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
+            <button class="btn dropdown-toggle" id="recentdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentdropdown">
+              <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+              <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
+              <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+              <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+            </div>
           </div>
         </div>
       </div>
@@ -109,66 +116,66 @@
     <div class="card-body pt-0">
       <div class="row recent-wrapper">
         <div class="col-xl-6">
-          <div class="recent-chart"> 
-            <div id="recentchart"></div>
+          <div class="recent-chart">
+            <div id="recentchart1"></div>
           </div>
         </div>
         <div class="col-xl-6">
-
-      <ul class="order-content">
-    <li id="completed-order">
-        <span class="recent-circle bg-primary"></span>
-        <div>
-            <span class="f-light f-w-300">Completed</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-    <li id="stock-returned-order">
-        <span class="recent-circle bg-info"></span>
-        <div>
-            <span class="f-light f-w-300">Stock Returned</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-    <li id="canceled-order">
-        <span class="recent-circle bg-danger"></span>
-        <div>
-            <span class="f-light f-w-300">Cancelled</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-    <li id="on-hold-order">
-        <span class="recent-circle bg-warning"></span>
-        <div>
-            <span class="f-light f-w-300">On Hold</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-    <li id="in-progress-order">
-        <span class="recent-circle bg-success"></span>
-        <div>
-            <span class="f-light f-w-300">In Progress</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-    <li id="open-order">
-        <span class="recent-circle bg-secondary"></span>
-        <div>
-            <span class="f-light f-w-300">Open</span>
-            <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
-        </div>
-    </li>
-</ul>
-
-
-
+          <ul class="order-content">
+            <li id="completed-order">
+              <span class="recent-circle bg-primary"></span>
+              <div>
+                <span class="f-light f-w-300">Completed</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+            <li id="stock-returned-order">
+              <span class="recent-circle bg-info"></span>
+              <div>
+                <span class="f-light f-w-300">Stock Returned</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+            <li id="canceled-order">
+              <span class="recent-circle bg-danger"></span>
+              <div>
+                <span class="f-light f-w-300">Cancelled</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+            <li id="on-hold-order">
+              <span class="recent-circle bg-warning"></span>
+              <div>
+                <span class="f-light f-w-300">On Hold</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+            <li id="in-progress-order">
+              <span class="recent-circle bg-success"></span>
+              <div>
+                <span class="f-light f-w-300">In Progress</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+            <li id="open-order">
+              <span class="recent-circle bg-secondary"></span>
+              <div>
+                <span class="f-light f-w-300">Open</span>
+                <h4 class="mt-1 mb-0"><span class="count">0</span><span class="f-light f-12 f-w-250 ms-1">(Last 6 Month)</span></h4>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
 <div class="col-xxl-4 col-xl-5 col-md-6 col-sm-7 notification box-col-6">
-  <div class="card height-equal"> 
+  <div class="card height-equal">
     <div class="card-header card-no-border">
       <div class="header-top">
         <h5 class="m-0">Activity</h5>
@@ -181,7 +188,7 @@
       </div>
     </div>
     <div class="card-body pt-0">
-      <ul> 
+      <ul>
         <li class="d-flex">
           <div class="activity-dot-primary"></div>
           <div class="w-100 ms-3">
@@ -284,7 +291,7 @@
       </div>
     </div>
     <div class="card-body pt-0">
-      <div class="schedule-container"> 
+      <div class="schedule-container">
         <div id="schedulechart"></div>
       </div>
     </div>
@@ -548,32 +555,330 @@
     }
   }
 </script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    fetch("http://localhost:8000/order-status/?format=json")
-      .then(response => response.json())
-      .then(data => {
-        data.status_summary.forEach(item => {
-          let formattedCount = formatNumber(item.count);
-          let elementId = `${item.status.replace(/-/g, ' ')}-order`.replace(/\s+/g, '-');
-          let element = document.getElementById(elementId);
-          if (element) {
-            element.querySelector('.count').innerText = formattedCount;
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  });
 
-  function formatNumber(num) {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K';
-    } else {
-      return num.toString();
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    let recentchart;
+
+    async function fetchOrderStatusSummary() {
+        try {
+            const response = await fetch('/order-status/?format=json');
+            const data = await response.json();
+            console.log('Fetched data:', data); // Log the fetched data
+            return data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return null;
+        }
     }
-  }
+
+    function updateOrderContent(data, filterType) {
+        const statusCounts = {
+            completed: 0,
+            'stock-returned': 0,
+            canceled: 0,
+            'on-hold': 0,
+            'in-progress': 0,
+            open: 0,
+        };
+
+        console.log('Filter type:', filterType); // Log the filter type
+        console.log('Data for filter type:', data[filterType]); // Log the data for the specific filter type
+
+        data[filterType].forEach(item => {
+            switch (item.status) {
+                case 'completed':
+                    statusCounts.completed += item.count;
+                    break;
+                case 'stock-returned':
+                    statusCounts['stock-returned'] += item.count;
+                    break;
+                case 'canceled':
+                    statusCounts.canceled += item.count;
+                    break;
+                case 'on-hold':
+                    statusCounts['on-hold'] += item.count;
+                    break;
+                case 'in-progress':
+                    statusCounts['in-progress'] += item.count;
+                    break;
+                case 'open':
+                    statusCounts.open += item.count;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        console.log('Updated status counts:', statusCounts); // Log the updated status counts
+
+        const completedOrderElement = document.querySelector('#completed-order .count');
+        if (completedOrderElement) {
+            completedOrderElement.textContent = statusCounts.completed;
+        } else {
+            console.error('Element not found: #completed-order .count');
+        }
+
+        const stockReturnedOrderElement = document.querySelector('#stock-returned-order .count');
+        if (stockReturnedOrderElement) {
+            stockReturnedOrderElement.textContent = statusCounts['stock-returned'];
+        } else {
+            console.error('Element not found: #stock-returned-order .count');
+        }
+
+        const canceledOrderElement = document.querySelector('#canceled-order .count');
+        if (canceledOrderElement) {
+            canceledOrderElement.textContent = statusCounts.canceled;
+        } else {
+            console.error('Element not found: #canceled-order .count');
+        }
+
+        const onHoldOrderElement = document.querySelector('#on-hold-order .count');
+        if (onHoldOrderElement) {
+            onHoldOrderElement.textContent = statusCounts['on-hold'];
+        } else {
+            console.error('Element not found: #on-hold-order .count');
+        }
+
+        const inProgressOrderElement = document.querySelector('#in-progress-order .count');
+        if (inProgressOrderElement) {
+            inProgressOrderElement.textContent = statusCounts['in-progress'];
+        } else {
+            console.error('Element not found: #in-progress-order .count');
+        }
+
+        const openOrderElement = document.querySelector('#open-order .count');
+        if (openOrderElement) {
+            openOrderElement.textContent = statusCounts.open;
+        } else {
+            console.error('Element not found: #open-order .count');
+        }
+
+        // Update the profit percentage
+        const profitPercentage = data.profit_percentage[filterType];
+        const profitPercentageElement = document.querySelector('.profit-percentage');
+        if (profitPercentageElement) {
+            profitPercentageElement.textContent = `${profitPercentage.toFixed(2)}%`;
+        } else {
+            console.error('Element not found: .profit-percentage');
+        }
+
+        // Update the chart
+        console.log('Updating chart with profit percentage:', profitPercentage); // Log the profit percentage being set
+        updateChart(profitPercentage);
+    }
+
+    async function initializeOrderStatusSummary(filterType = 'daily') {
+        const data = await fetchOrderStatusSummary();
+        if (data) {
+            updateOrderContent(data, filterType);
+        }
+    }
+
+    function updateChart(profitPercentage) {
+        if (recentchart) {
+            recentchart.updateSeries([profitPercentage]);
+            console.log('Chart series updated:', [profitPercentage]); // Log the new series value
+        } else {
+            console.error('Chart not initialized');
+        }
+    }
+
+    // Event listener for the dropdown menu
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (event) => {
+            const filterType = event.target.getAttribute('data-filter');
+            if (filterType) {
+                console.log('Selected filter type:', filterType); // Log the selected filter type
+                initializeOrderStatusSummary(filterType);
+            }
+        });
+    });
+
+    // Initial load with default filter (daily)
+    initializeOrderStatusSummary();
+
+    // Initialize the chart
+    const recentoptions = {
+        series: [0], // Initial value, will be updated
+        chart: {
+            height: 290,
+            type: 'radialBar',
+            toolbar: {
+                show: false
+            }
+        },
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    margin: 0,
+                    size: '60%',
+                    background: 'var(--recent-chart-bg)',
+                    image: undefined,
+                    imageOffsetX: 0,
+                    imageOffsetY: 0,
+                    position: 'front',
+                    dropShadow: {
+                        enabled: true,
+                        top: 3,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.05
+                    }
+                },
+                track: {
+                    background: '#F4F4F4',
+                    strokeWidth: '67%',
+                    margin: 0,
+                    dropShadow: {
+                        enabled: true,
+                        top: 0,
+                        left: 0,
+                        blur: 10,
+                        color: '#ddd',
+                        opacity: 1
+                    }
+                },
+
+                dataLabels: {
+                    show: true,
+                    name: {
+                        offsetY: 30,
+                        show: true,
+                        color: '#888',
+                        fontSize: '17px',
+                        fontWeight: '500',
+                        fontFamily: 'Rubik, sans-serif',
+                    },
+                    value: {
+                        formatter: function (val) {
+                            return parseInt(val);
+                        },
+                        offsetY: -8,
+                        color: '#111',
+                        fontSize: '36px',
+                        show: true,
+                    }
+                }
+            }
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                type: 'horizontal',
+                shadeIntensity: 0.5,
+                opacityFrom: 1,
+                opacityTo: 1,
+                colorStops: [
+                    {
+                        offset: 0,
+                        color: "#7366FF",
+                        opacity: 1
+                    },
+                    {
+                        offset: 20,
+                        color: "#3EA4F1",
+                        opacity: 1
+                    },
+                    {
+                        offset: 100,
+                        color: "#FFFFFF",
+                        opacity: 1
+                    },
+                ]
+            }
+        },
+        stroke: {
+            lineCap: 'round'
+        },
+        labels: ['Total Profit'],
+        responsive: [
+            {
+                breakpoint: 1840,
+                options: {
+                    chart: {
+                        height: 260,
+                    }
+                }
+            },
+            {
+                breakpoint: 1700,
+                options: {
+                    chart: {
+                        height: 250,
+                    }
+                }
+            },
+            {
+                breakpoint: 1660,
+                options: {
+                    chart: {
+                        height: 230,
+                        dataLabels: {
+                            name: {
+                                fontSize: '15px',
+                            }
+                        }
+                    },
+                },
+            },
+            {
+                breakpoint: 1561,
+                options: {
+                    chart: {
+                        height: 275,
+                    },
+                },
+            },
+            {
+                breakpoint: 1400,
+                options: {
+                    chart: {
+                        height: 360,
+                    },
+                },
+            },
+            {
+                breakpoint: 1361,
+                options: {
+                    chart: {
+                        height: 300,
+                    },
+                },
+            },
+            {
+                breakpoint: 1200,
+                options: {
+                    chart: {
+                        height: 230,
+                    },
+                },
+            },
+            {
+                breakpoint: 1007,
+                options: {
+                    chart: {
+                        height: 240,
+                    },
+                },
+            },
+            {
+                breakpoint: 600,
+                options: {
+                    chart: {
+                        height: 230,
+                    },
+                },
+            },
+        ]
+    };
+
+    recentchart = new ApexCharts(document.querySelector("#recentchart1"), recentoptions);
+    recentchart.render();
+});
+
 </script>

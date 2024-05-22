@@ -1,14 +1,14 @@
 {% load static %}
 {% load sass_tags %}
 <div class="row widget-grid">
-<div class="col-xxl-3 col-sm-5 box-col-5 ">
+<div class="col-xxl-4 col-sm-6 box-col-6 ">
   <div class="card profile-box gradient-bg">
     <div class="card-body ">
       <div class="media">
         <div class="media-body">
           <div class="greeting-user">
-            <h4 class="f-w-600">Pershendetje {{ request.user.username }}</h4>
-            <p></p>
+            <h4 style="" class="f-w-600">Pershendetje <br>{{ request.user.username }}</h4>
+
             <div class="whatsnew-btn"><a class="btn btn-outline-white">SHIKO!</a></div>
           </div>
         </div>
@@ -193,6 +193,8 @@
   </div>
 </div>
 
+
+{% load static %}
 <div class="row">
   <div class="col-xxl-12 col-xl-6 box-col-12">
     <div class="card">
@@ -204,9 +206,10 @@
               <i class="icon-more-alt"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
-              <a class="dropdown-item" href="#">Weekly</a>
-              <a class="dropdown-item" href="#">Monthly</a>
-              <a class="dropdown-item" href="#">Yearly</a>
+              <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+              <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
+              <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+              <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
             </div>
           </div>
         </div>
@@ -218,10 +221,10 @@
               <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1">178,098</h5>
+              <h5 class="mb-1" id="total-users-increase">0</h5>
               <span class="font-primary d-flex align-items-center">
                 <i class="icon-arrow-up icon-rotate me-1"></i>
-                <span class="f-w-500">+30.89</span>
+                <span class="f-w-500" id="percentage-increase">0.00%</span>
               </span>
             </div>
           </div>
@@ -232,10 +235,10 @@
               <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1">178,098</h5>
+              <h5 class="mb-1" id="total-users-decrease">0</h5>
               <span class="font-danger d-flex align-items-center">
                 <i class="icon-arrow-down icon-rotate me-1"></i>
-                <span class="f-w-500">-08.89</span>
+                <span class="f-w-500" id="percentage-decrease">0.00%</span>
               </span>
             </div>
           </div>
@@ -244,6 +247,70 @@
     </div>
   </div>
 </div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const userDropdown = document.getElementById('userdropdown');
+
+    async function fetchUserData(filterType = 'daily') {
+        try {
+            const response = await fetch(`/new-users-summary/?format=json`);
+            const data = await response.json();
+            return data[filterType];
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
+    }
+
+    function updateUserStats(data) {
+        if (!data || data.length === 0) return;
+
+        const latestData = data[data.length - 1];
+        const previousData = data.length > 1 ? data[data.length - 2] : null;
+
+        const totalUsersIncreaseElement = document.getElementById('total-users-increase');
+        const percentageIncreaseElement = document.getElementById('percentage-increase');
+
+        totalUsersIncreaseElement.textContent = latestData.total_count.toLocaleString();
+        percentageIncreaseElement.textContent = `${latestData.percentage_difference ? (latestData.percentage_difference > 0 ? '+' : '') + latestData.percentage_difference.toFixed(2) : '0.00'}%`;
+
+        // Update with decrease data as well, assuming the API structure and logic supports this
+        const totalUsersDecreaseElement = document.getElementById('total-users-decrease');
+        const percentageDecreaseElement = document.getElementById('percentage-decrease');
+
+        if (previousData) {
+            totalUsersDecreaseElement.textContent = previousData.total_count.toLocaleString();
+            percentageDecreaseElement.textContent = `${previousData.percentage_difference ? (previousData.percentage_difference > 0 ? '+' : '') + previousData.percentage_difference.toFixed(2) : '0.00'}%`;
+        } else {
+            totalUsersDecreaseElement.textContent = '0';
+            percentageDecreaseElement.textContent = '0.00%';
+        }
+    }
+
+    async function initializeUserStats(filterType = 'daily') {
+        const data = await fetchUserData(filterType);
+        updateUserStats(data);
+    }
+
+    // Event listener for the dropdown menu
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (event) => {
+            const filterType = event.target.getAttribute('data-filter');
+            if (filterType) {
+                initializeUserStats(filterType);
+            }
+        });
+    });
+
+    initializeUserStats(); // Initial load with default filter (daily)
+});
+
+</script>
+
+
 
 <style>
   .gradient-bg1 {

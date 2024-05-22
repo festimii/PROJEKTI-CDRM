@@ -10,12 +10,7 @@ urlpatterns = [
 path('order-summaries/', viewscostum.fetch_order_summaries, name='order_summaries'),
 path('order-chart/', viewscostum.fetch_order_summaries_total, name='order_summaries_total'),
 path('order-status/', viewscostum.fetch_order_status_summary, name='order_summaries_status'),
-
-
-
-
-
-
+path('new-users-summary/', viewscostum.fetch_new_users_summary, name='new-users-summary'),
 
     #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 path('', views.index, name="index"),

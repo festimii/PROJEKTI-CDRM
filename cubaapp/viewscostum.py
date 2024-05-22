@@ -1,9 +1,10 @@
 
-from django.db.models.functions import TruncDay, TruncHour, TruncMonth
+from django.db.models.functions import TruncDay, TruncHour, TruncWeek, TruncMonth, TruncYear
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.db.models import Sum ,Count
-from .models import Orders
+from django.db.models import Sum ,Count ,Max
+from .models import Orders ,Users
+
 from django.contrib.auth.decorators import login_required   #@login_required ME I VENDOS MA VON ME I BA PROTECT
 
 def fetch_order_summaries(request):
@@ -50,22 +51,112 @@ def fetch_order_summaries_total(request):
         return JsonResponse(result, safe=False)
 
     return render(request, 'order_summaries.html', {'result': result})
+
+
 def fetch_order_status_summary(request):
     orders = Orders.objects.all()
 
-    # Aggregation by status
-    status_summary = orders.values('status').annotate(count=Count('id'), total_sum=Sum('total'))
+    def get_aggregated_data(trunc_function, filter_recent=False):
+        """
+        Aggregates order data by truncating the date field using the provided trunc_function.
+        If filter_recent is True, only the most recent period data is returned.
+        Returns a list of dictionaries containing the status, period, count, and total_sum.
+        """
+        aggregated_data = orders.annotate(period=trunc_function('created_at')).values('status', 'period').annotate(
+            count=Count('id'), total_sum=Sum('total'))
 
-    # Total summary for all time
-    total_summary = orders.aggregate(total_count=Count('id'), total_sum=Sum('total'))
+        if filter_recent:
+            # Filter to keep only the most recent period
+            most_recent_period = aggregated_data.aggregate(most_recent=Max('period'))['most_recent']
+            aggregated_data = aggregated_data.filter(period=most_recent_period)
 
-    # Combine results into a dictionary
+        return list(aggregated_data)
+
+    def calculate_profit_percentage(data):
+        """
+        Calculates the profit percentage as the ratio of completed orders to total orders.
+        """
+        completed_count = sum(item['count'] for item in data if item['status'] == 'completed')
+        other_count = sum(item['count'] for item in data if item['status'] != 'completed')
+        profit_percentage = (completed_count / (completed_count + other_count)) * 100 if (
+                                                                                                     completed_count + other_count) > 0 else 0
+        return profit_percentage
+
+    # Get aggregated data for different time periods
+    daily_orders = get_aggregated_data(TruncDay, filter_recent=True)
+    weekly_orders = get_aggregated_data(TruncWeek)
+    monthly_orders = get_aggregated_data(TruncMonth)
+    yearly_orders = get_aggregated_data(TruncYear)
+
+    # Calculate profit percentages for each time period
+    daily_profit_percentage = calculate_profit_percentage(daily_orders)
+    weekly_profit_percentage = calculate_profit_percentage(weekly_orders)
+    monthly_profit_percentage = calculate_profit_percentage(monthly_orders)
+    yearly_profit_percentage = calculate_profit_percentage(yearly_orders)
+
+    # Prepare the final result dictionary
     result = {
-        'status_summary': list(status_summary),
-        'total_summary': total_summary
+        'daily': daily_orders,
+        'weekly': weekly_orders,
+        'monthly': monthly_orders,
+        'yearly': yearly_orders,
+        'profit_percentage': {
+            'daily': daily_profit_percentage,
+            'weekly': weekly_profit_percentage,
+            'monthly': monthly_profit_percentage,
+            'yearly': yearly_profit_percentage,
+        }
+    }
+
+    # Return the result as JSON if requested
+    if request.GET.get('format') == 'json':
+        return JsonResponse(result, safe=False)
+
+    # Otherwise, render the result in an HTML template
+    return render(request, 'order_status_summary.html', {'result': result})
+def fetch_new_users_summary(request):
+    users = Users.objects.all()
+
+    # Aggregation by day
+    daily_users = users.annotate(period=TruncDay('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+    daily_data = list(daily_users)
+    for i in range(1, len(daily_data)):
+        current_count = daily_data[i]['total_count']
+        previous_count = daily_data[i-1]['total_count']
+        daily_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+
+    # Aggregation by week
+    weekly_users = users.annotate(period=TruncWeek('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+    weekly_data = list(weekly_users)
+    for i in range(1, len(weekly_data)):
+        current_count = weekly_data[i]['total_count']
+        previous_count = weekly_data[i-1]['total_count']
+        weekly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+
+    # Aggregation by month
+    monthly_users = users.annotate(period=TruncMonth('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+    monthly_data = list(monthly_users)
+    for i in range(1, len(monthly_data)):
+        current_count = monthly_data[i]['total_count']
+        previous_count = monthly_data[i-1]['total_count']
+        monthly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+
+    # Aggregation by year
+    yearly_users = users.annotate(period=TruncYear('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+    yearly_data = list(yearly_users)
+    for i in range(1, len(yearly_data)):
+        current_count = yearly_data[i]['total_count']
+        previous_count = yearly_data[i-1]['total_count']
+        yearly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+
+    result = {
+        'daily': daily_data,
+        'weekly': weekly_data,
+        'monthly': monthly_data,
+        'yearly': yearly_data,
     }
 
     if request.GET.get('format') == 'json':
         return JsonResponse(result, safe=False)
 
-    return render(request, 'order_status_summary.html', {'result': result})
+    return render(request, 'new_users_summary.html', {'result': result})
