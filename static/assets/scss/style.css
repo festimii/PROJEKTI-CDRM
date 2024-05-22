@@ -11917,7 +11917,7 @@ select.crypto-select {
   display: none; }
 
 .widget-1 {
-  background-image: url(../images/dashboard/widget-bg.png);
+  background-image: url(../../images/rm380-17.jpg);
   background-size: cover;
   margin-bottom: 25px; }
   .widget-1 i {
@@ -11963,7 +11963,7 @@ select.crypto-select {
         left: -9px;
         width: 35px;
         bottom: -8px;
-        background: #fff;
+        background: transparent;
         z-index: -1; }
       @media (max-width: 1600px) {
         .widget-1 .widget-round .bg-round {

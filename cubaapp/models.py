@@ -626,7 +626,7 @@ class Transactions(models.Model):
     coupons_applied = models.CharField(max_length=255, blank=True, null=True)
     invoice_total = models.DecimalField(max_digits=20, decimal_places=2)
     invoice_total_before_discount = models.DecimalField(max_digits=20, decimal_places=2)
-    user_id = models.PositiveBigIntegerField()
+    user_id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     organization_id = models.IntegerField()
@@ -639,20 +639,6 @@ class Transactions(models.Model):
 
     class Meta:
         db_table = 'transactions'
-
-
-class TransportTypes(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    active = models.IntegerField()
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    value = models.DecimalField(max_digits=10, decimal_places=5)
-
-    class Meta:
-        db_table = 'transport_types'
-
 
 class Users(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -704,6 +690,20 @@ class Users(models.Model):
 
     class Meta:
         db_table = 'users'
+
+class TransportTypes(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    active = models.IntegerField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    value = models.DecimalField(max_digits=10, decimal_places=5)
+
+    class Meta:
+        db_table = 'transport_types'
+
+
 
 
 class VivaLocations(models.Model):
@@ -757,3 +757,15 @@ class Wishlists(models.Model):
 
     class Meta:
         db_table = 'wishlists'
+
+class ConsolidatedUserTransactions(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    total_sales = models.DecimalField(max_digits=20, decimal_places=2)
+    average_sales = models.DecimalField(max_digits=20, decimal_places=2)
+    total_transactions = models.IntegerField()
+    total_items = models.IntegerField()
+    total_discount = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    last_transaction_date = models.DateTimeField()
+
+    class Meta:
+        db_table = 'consolidated_user_transactions'
