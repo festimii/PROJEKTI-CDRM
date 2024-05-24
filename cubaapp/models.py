@@ -604,42 +604,6 @@ class TimeSlots(models.Model):
         db_table = 'time_slots'
 
 
-class TransactionItems(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    amount = models.DecimalField(max_digits=20, decimal_places=2)
-    base_price = models.DecimalField(max_digits=20, decimal_places=2)
-    discount_price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    coupon_applied = models.PositiveBigIntegerField(blank=True, null=True)
-    product_id = models.PositiveBigIntegerField(blank=True, null=True)
-    transaction_id = models.PositiveBigIntegerField()
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    quantity = models.DecimalField(max_digits=20, decimal_places=2)
-
-    class Meta:
-        db_table = 'transaction_items'
-
-
-class Transactions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    post_id = models.CharField(max_length=255, blank=True, null=True)
-    coupons_applied = models.CharField(max_length=255, blank=True, null=True)
-    invoice_total = models.DecimalField(max_digits=20, decimal_places=2)
-    invoice_total_before_discount = models.DecimalField(max_digits=20, decimal_places=2)
-    user_id = models.BigAutoField(primary_key=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    organization_id = models.IntegerField()
-    group_of_arka = models.IntegerField(blank=True, null=True)
-    number_of_arka = models.IntegerField(blank=True, null=True)
-    operator_id = models.IntegerField(blank=True, null=True)
-    transaction_id = models.IntegerField()
-    operator_name = models.CharField(max_length=255, blank=True, null=True)
-    created_date = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'transactions'
-
 class Users(models.Model):
     id = models.BigAutoField(primary_key=True)
     first_name = models.CharField(max_length=255)
@@ -691,6 +655,39 @@ class Users(models.Model):
     class Meta:
         db_table = 'users'
 
+class Transactions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    post_id = models.CharField(max_length=255, blank=True, null=True)
+    coupons_applied = models.CharField(max_length=255, blank=True, null=True)
+    invoice_total = models.DecimalField(max_digits=20, decimal_places=2)
+    invoice_total_before_discount = models.DecimalField(max_digits=20, decimal_places=2)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='transactions')
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    organization_id = models.IntegerField()
+    group_of_arka = models.IntegerField(blank=True, null=True)
+    number_of_arka = models.IntegerField(blank=True, null=True)
+    operator_id = models.IntegerField(blank=True, null=True)
+    operator_name = models.CharField(max_length=255, blank=True, null=True)
+    created_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'transactions'
+
+class TransactionItems(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    base_price = models.DecimalField(max_digits=20, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    coupon_applied = models.PositiveBigIntegerField(blank=True, null=True)
+    product_id = models.PositiveBigIntegerField(blank=True, null=True)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE, related_name='items')
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    quantity = models.DecimalField(max_digits=20, decimal_places=2)
+
+    class Meta:
+        db_table = 'transaction_items'
 class TransportTypes(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -769,3 +766,14 @@ class ConsolidatedUserTransactions(models.Model):
 
     class Meta:
         db_table = 'consolidated_user_transactions'
+class UserPurchasedItems(models.Model):
+    user = models.ForeignKey('Users', on_delete=models.CASCADE)
+    transaction = models.ForeignKey('Transactions', on_delete=models.CASCADE)
+    item = models.ForeignKey('TransactionItems', on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    base_price = models.DecimalField(max_digits=20, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    quantity = models.DecimalField(max_digits=20, decimal_places=2)
+
+    class Meta:
+        db_table = 'user_purchased_items'

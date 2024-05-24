@@ -1,25 +1,41 @@
-# management/commands/populate_consolidated_user_transactions.py
-
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 from cubaapp.models import Users, Transactions, TransactionItems, ConsolidatedUserTransactions
-from django.db.models import Sum, Avg, Count, F, Max
+from django.db.models import Sum
 
 class Command(BaseCommand):
-    help = 'Populate the consolidated user transactions table'
+    help = 'Populate the ConsolidatedUserTransactions table'
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **options):
+        users = Users.objects.all()
         ConsolidatedUserTransactions.objects.all().delete()  # Clear existing data
 
-        users = Users.objects.all()
-
         for user in users:
-            transactions = Transactions.objects.filter(user_id=user.id)
-            total_sales = transactions.aggregate(Sum('invoice_total'))['invoice_total__sum'] or 0
+            transactions = Transactions.objects.filter(user=user)
+            if not transactions.exists():
+                print(f"No transactions found for user: {user.id} - {user.first_name} {user.last_name}")
+                continue
+
+            print(f"User {user.id} - {user.first_name} {user.last_name} has the following transactions:")
+
+            total_sales = 0
             total_transactions = transactions.count()
-            total_items = TransactionItems.objects.filter(transaction_id__in=transactions.values_list('id', flat=True)).count()
-            total_discount = transactions.aggregate(Sum('invoice_total_before_discount'))['invoice_total_before_discount__sum'] - total_sales or 0
-            last_transaction_date = transactions.aggregate(last_date=Max('created_at'))['last_date']
+            total_items = 0
+            total_discount = 0
+
+            for transaction in transactions:
+                print(f"  Transaction ID: {transaction.id}, Invoice Total: {transaction.invoice_total}")
+                total_sales += transaction.invoice_total
+                total_discount += transaction.invoice_total_before_discount - transaction.invoice_total
+                
+                items = TransactionItems.objects.filter(transaction=transaction)
+                total_items += items.count()
+
+                for item in items:
+                    print(f"    Item ID: {item.id}, Amount: {item.amount}, Base Price: {item.base_price}")
+
             average_sales = total_sales / total_transactions if total_transactions > 0 else 0
+            last_transaction_date = transactions.latest('created_at').created_at if transactions.exists() else timezone.now()
 
             ConsolidatedUserTransactions.objects.create(
                 user=user,
@@ -31,4 +47,4 @@ class Command(BaseCommand):
                 last_transaction_date=last_transaction_date
             )
 
-        self.stdout.write(self.style.SUCCESS('Successfully populated consolidated user transactions table'))
+        print("ConsolidatedUserTransactions table has been populated.")

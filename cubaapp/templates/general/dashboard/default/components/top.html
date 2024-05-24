@@ -196,11 +196,62 @@
 
 {% load static %}
 <div class="row">
-  <div class="col-xxl-12 col-xl-6 box-col-12">
+  <div class="col-xxl-6 col-xl-6 box-col-12">
     <div class="card">
       <div class="card-header card-no-border">
         <div class="header-top d-flex justify-content-between">
-          <h5 class="f-w-600">Total Users</h5>
+          <h5 class="f-w-600">Loyality "EComerce" </h5>
+          <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+              <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+              <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
+              <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+              <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body pt-0 d-flex align-items-center justify-content-between">
+        <div class="user-stats">
+          <div class="d-flex align-items-center">
+            <div class="user-icon primary">
+              <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
+            </div>
+            <div class="text-end ms-2">
+              <h5 class="mb-1" id="total-users-increase">0</h5>
+              <span class="font-primary d-flex align-items-center">
+                <i class="icon-arrow-up icon-rotate me-1"></i>
+                <span class="f-w-500" id="percentage-increase">0.00%</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="user-stats">
+          <div class="d-flex align-items-center">
+            <div class="user-icon success">
+              <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
+            </div>
+            <div class="text-end ms-2">
+              <h5 class="mb-1" id="total-users-decrease">0</h5>
+              <span class="font-danger d-flex align-items-center">
+                <i class="icon-arrow-down icon-rotate me-1"></i>
+                <span class="f-w-500" id="percentage-decrease">0.00%</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+      <div class="col-xxl-6 col-xl-6 box-col-12">
+    <div class="card">
+      <div class="card-header card-no-border">
+        <div class="header-top d-flex justify-content-between">
+          <h5 class="f-w-600">HORECA USERS</h5>
           <div class="dropdown icon-dropdown">
             <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="icon-more-alt"></i>

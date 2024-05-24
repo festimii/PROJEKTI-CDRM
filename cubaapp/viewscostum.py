@@ -115,46 +115,53 @@ def fetch_order_status_summary(request):
     # Otherwise, render the result in an HTML template
     return render(request, 'order_status_summary.html', {'result': result})
 def fetch_new_users_summary(request):
-    users = Users.objects.all()
-
-    # Aggregation by day
-    daily_users = users.annotate(period=TruncDay('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
-    daily_data = list(daily_users)
-    for i in range(1, len(daily_data)):
-        current_count = daily_data[i]['total_count']
-        previous_count = daily_data[i-1]['total_count']
-        daily_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
-
-    # Aggregation by week
-    weekly_users = users.annotate(period=TruncWeek('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
-    weekly_data = list(weekly_users)
-    for i in range(1, len(weekly_data)):
-        current_count = weekly_data[i]['total_count']
-        previous_count = weekly_data[i-1]['total_count']
-        weekly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
-
-    # Aggregation by month
-    monthly_users = users.annotate(period=TruncMonth('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
-    monthly_data = list(monthly_users)
-    for i in range(1, len(monthly_data)):
-        current_count = monthly_data[i]['total_count']
-        previous_count = monthly_data[i-1]['total_count']
-        monthly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
-
-    # Aggregation by year
-    yearly_users = users.annotate(period=TruncYear('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
-    yearly_data = list(yearly_users)
-    for i in range(1, len(yearly_data)):
-        current_count = yearly_data[i]['total_count']
-        previous_count = yearly_data[i-1]['total_count']
-        yearly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+    user_types = Users.objects.values_list('type', flat=True).distinct()
 
     result = {
-        'daily': daily_data,
-        'weekly': weekly_data,
-        'monthly': monthly_data,
-        'yearly': yearly_data,
+        'daily': {},
+        'weekly': {},
+        'monthly': {},
+        'yearly': {},
     }
+
+    for user_type in user_types:
+        users = Users.objects.filter(type=user_type)
+
+        # Aggregation by day
+        daily_users = users.annotate(period=TruncDay('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+        daily_data = list(daily_users)
+        for i in range(1, len(daily_data)):
+            current_count = daily_data[i]['total_count']
+            previous_count = daily_data[i-1]['total_count']
+            daily_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+        result['daily'][user_type] = daily_data
+
+        # Aggregation by week
+        weekly_users = users.annotate(period=TruncWeek('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+        weekly_data = list(weekly_users)
+        for i in range(1, len(weekly_data)):
+            current_count = weekly_data[i]['total_count']
+            previous_count = weekly_data[i-1]['total_count']
+            weekly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+        result['weekly'][user_type] = weekly_data
+
+        # Aggregation by month
+        monthly_users = users.annotate(period=TruncMonth('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+        monthly_data = list(monthly_users)
+        for i in range(1, len(monthly_data)):
+            current_count = monthly_data[i]['total_count']
+            previous_count = monthly_data[i-1]['total_count']
+            monthly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+        result['monthly'][user_type] = monthly_data
+
+        # Aggregation by year
+        yearly_users = users.annotate(period=TruncYear('created_at')).values('period').annotate(total_count=Count('id')).order_by('period')
+        yearly_data = list(yearly_users)
+        for i in range(1, len(yearly_data)):
+            current_count = yearly_data[i]['total_count']
+            previous_count = yearly_data[i-1]['total_count']
+            yearly_data[i]['percentage_difference'] = ((current_count - previous_count) / previous_count) * 100 if previous_count != 0 else None
+        result['yearly'][user_type] = yearly_data
 
     if request.GET.get('format') == 'json':
         return JsonResponse(result, safe=False)
