@@ -22,8 +22,8 @@
               <div class="col-xl-12">
                 <div class="card-body p-0">
                   <ul class="balance-data">
-                    <li><span class="circle bg-warning"> </span><span class="f-light ms-1">Earning</span></li>
-                    <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Expense</span></li>
+                    <li><span class="circle bg-warning"> </span><span class="f-light ms-1">Horeca</span></li>
+                    <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Loyality</span></li>
                   </ul>
                   <div class="current-sale-container">
                     <div id="chart-currently1"></div>
@@ -174,109 +174,76 @@
 
 
 
-<div class="col-xxl-4 col-xl-5 col-md-6 col-sm-7 notification box-col-6">
-  <div class="card height-equal">
-    <div class="card-header card-no-border">
-      <div class="header-top">
-        <h5 class="m-0">Activity</h5>
-        <div class="card-header-right-icon">
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday  </a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body pt-0">
-      <ul>
-        <li class="d-flex">
-          <div class="activity-dot-primary"></div>
-          <div class="w-100 ms-3">
-            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">8th March, 2022 </span><span>1 day ago</span></p>
-            <h6>Updated Product<span class="dot-notification"></span></h6>
-            <p class="f-light">Quisque a consequat ante sit amet magna...</p>
-          </div>
-        </li>
-        <li class="d-flex">
-          <div class="activity-dot-warning"></div>
-          <div class="w-100 ms-3">
-            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">15th Oct, 2022 </span><span>Today</span></p>
-            <h6>Tello just like your product<span class="dot-notification"></span></h6>
-            <p>Quisque a consequat ante sit amet magna... </p>
-          </div>
-        </li>
-        <li class="d-flex">
-          <div class="activity-dot-secondary"></div>
-          <div class="w-100 ms-3">
-            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">20th Sep, 2022 </span><span>12:00 PM</span></p>
-            <h6>Tello just like your product<span class="dot-notification"></span></h6>
-            <p>Quisque a consequat ante sit amet magna... </p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
 <div class="col-xxl-4 col-md-6 appointment-sec box-col-6">
-  <div class="appointment">
-    <div class="card">
-      <div class="card-header card-no-border">
-        <div class="header-top">
-          <h5 class="m-0">Recent Sales</h5>
-          <div class="card-header-right-icon">
-            <div class="dropdown">
-              <button class="btn dropdown-toggle" id="recentButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
+    <div class="appointment">
+        <div class="card">
+            <div class="card-header card-no-border">
+                <div class="header-top">
+                    <h5 class="m-0">Top Customers</h5>
+                    <div class="card-header-right-icon">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" id="recentButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentButton">
+                                <a class="dropdown-item" href="#">Today</a>
+                                <a class="dropdown-item" href="#">Tomorrow</a>
+                                <a class="dropdown-item" href="#">Yesterday</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="card-body pt-0">
+                <div class="appointment-table table-responsive">
+                    <table class="table table-bordernone">
+                        <tbody id="topCustomersData">
+                            <!-- Top customers data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="topCustomersPagination" class="text-center mt-3">
+                    <!-- Pagination buttons will be populated here -->
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card-body pt-0">
-        <div class="appointment-table table-responsive">
-          <table class="table table-bordernone">
-            <tbody>
-              <tr>
-                <td><img class="img-fluid img-40 rounded-circle" src="{% static 'assets/images/dashboard/user/1.jpg'%}" alt="user"></td>
-                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">Jane Cooper</a><span class="f-light">10 minutes ago</span></td>
-                <td class="text-end">
-                  <p class="m-0 font-success">$200.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td><img class="img-fluid img-40 rounded-circle" src="{% static 'assets/images/dashboard/user/2.jpg'%}" alt="user"></td>
-                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">Brooklyn Simmons</a><span class="f-light">19 minutes ago</span></td>
-                <td class="text-end">
-                  <p class="m-0 font-success">$970.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td><img class="img-fluid img-40 rounded-circle" src="{% static 'assets/images/dashboard/user/3.jpg'%}" alt="user"></td>
-                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">Leslie Alexander</a><span class="f-light">2 hours ago</span></td>
-                <td class="text-end">
-                  <p class="m-0 font-success">$300.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td><img class="img-fluid img-40 rounded-circle" src="{% static 'assets/images/dashboard/user/4.jpg'%}" alt="user"></td>
-                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">Travis Wright</a><span class="f-light">8 hours ago</span></td>
-                <td class="text-end">
-                  <p class="m-0 font-success">$450.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td><img class="img-fluid img-40 rounded-circle" src="{% static 'assets/images/dashboard/user/5.jpg'%}" alt="user"></td>
-                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">Mark Green</a><span class="f-light">1 day ago</span></td>
-                <td class="text-end">
-                  <p class="m-0 font-success">$768.00</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
+
+    <div class="col-xxl-4 col-md-6 appointment-sec box-col-6">
+        <div class="appointment">
+            <div class="card">
+                <div class="card-header card-no-border">
+                    <div class="header-top">
+                        <h5 class="m-0">Top Arkataret</h5>
+                        <div class="card-header-right-icon">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" id="recentButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentButton">
+                                    <a class="dropdown-item" href="#">Today</a>
+                                    <a class="dropdown-item" href="#">Tomorrow</a>
+                                    <a class="dropdown-item" href="#">Yesterday</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="appointment-table table-responsive">
+                        <table class="table table-bordernone">
+                            <tbody id="salesData">
+                                <!-- Sales data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="pagination" class="text-center mt-3">
+                        <!-- Pagination buttons will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 <div class="col-xxl-4 col-md-6 box-col-6">
   <div class="card">
     <div class="card-header card-no-border">
@@ -296,13 +263,18 @@
       </div>
     </div>
   </div>
-</div><style>
+</div>
+
+
+
+<style>
   .icon-dropdown {
     position: absolute;
     top: 10px;
     right: 10px;
   }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
   var options = {
@@ -318,7 +290,7 @@
     ],
     chart: {
       type: 'bar',
-      height: 300,
+      height: 400,
       stacked: true,
       toolbar: {
         show: false,
@@ -447,7 +419,7 @@
             bar: {
               columnWidth: '40px',
             },
-          },
+          }
         }
       },
     ]
@@ -474,34 +446,44 @@
     };
     let categories = [];
 
-    if (filterType === 'hourly') {
-      categories = Array.from({ length: 24 }, (_, i) => i);
-      chartData.horeca = Array(24).fill(0);
-      chartData.loyalty = Array(24).fill(0);
-      data.hourly.forEach(item => {
-        const hour = new Date(item.period).getHours();
-        if (item.horeca !== undefined) chartData.horeca[hour] += item.horeca;
-        if (item.loyalty !== undefined) chartData.loyalty[hour] += item.loyalty;
-      });
-    } else if (filterType === 'daily') {
-      const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-      categories = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-      chartData.horeca = Array(daysInMonth).fill(0);
-      chartData.loyalty = Array(daysInMonth).fill(0);
-      data.daily.forEach(item => {
-        const day = new Date(item.period).getDate() - 1;
-        if (item.horeca !== undefined) chartData.horeca[day] += item.horeca;
-        if (item.loyalty !== undefined) chartData.loyalty[day] += item.loyalty;
-      });
-    } else if (filterType === 'monthly') {
-      categories = Array.from({ length: 12 }, (_, i) => i + 1);
-      chartData.horeca = Array(12).fill(0);
-      chartData.loyalty = Array(12).fill(0);
-      data.monthly.forEach(item => {
-        const month = new Date(item.period).getMonth();
-        if (item.horeca !== undefined) chartData.horeca[month] += item.horeca;
-        if (item.loyalty !== undefined) chartData.loyalty[month] += item.loyalty;
-      });
+    const processData = (filterType) => {
+      if (filterType === 'hourly') {
+        categories = Array.from({ length: 24 }, (_, i) => i);
+        chartData.horeca = Array(24).fill(0);
+        chartData.loyalty = Array(24).fill(0);
+        data.hourly.forEach(item => {
+          const hour = new Date(item.period).getHours();
+          if (item.horeca !== undefined) chartData.horeca[hour] += item.horeca;
+          if (item.loyalty !== undefined) chartData.loyalty[hour] += item.loyalty;
+        });
+      } else if (filterType === 'daily') {
+        const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+        categories = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+        chartData.horeca = Array(daysInMonth).fill(0);
+        chartData.loyalty = Array(daysInMonth).fill(0);
+        data.daily.forEach(item => {
+          const day = new Date(item.period).getDate() - 1;
+          if (item.horeca !== undefined) chartData.horeca[day] += item.horeca;
+          if (item.loyalty !== undefined) chartData.loyalty[day] += item.loyalty;
+        });
+      } else if (filterType === 'monthly') {
+        categories = Array.from({ length: 12 }, (_, i) => i + 1);
+        chartData.horeca = Array(12).fill(0);
+        chartData.loyalty = Array(12).fill(0);
+        data.monthly.forEach(item => {
+          const month = new Date(item.period).getMonth();
+          if (item.horeca !== undefined) chartData.horeca[month] += item.horeca;
+          if (item.loyalty !== undefined) chartData.loyalty[month] += item.loyalty;
+        });
+      }
+    };
+
+    processData(filterType);
+
+    // Check if data is empty, and if so, revert to hourly
+    if (chartData.horeca.every(value => value === 0) && chartData.loyalty.every(value => value === 0)) {
+      console.log(`No data found for ${filterType}, reverting to hourly.`);
+      processData('hourly');
     }
 
     options.series[0].data = chartData.horeca;
@@ -524,6 +506,7 @@
     });
   });
 </script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     fetch("http://localhost:8000/order-summaries/?format=json")
@@ -879,6 +862,165 @@ document.addEventListener('DOMContentLoaded', () => {
 
     recentchart = new ApexCharts(document.querySelector("#recentchart1"), recentoptions);
     recentchart.render();
+});
+
+</script>
+
+
+  <script>
+        $(document).ready(function() {
+            console.log("Document is ready");
+            var currentPage = 1;
+            var pageSize = 5;
+
+            // Function to populate sales data
+            function populateSalesData(data) {
+                console.log("Populating sales data:", data);  // Debugging statement
+                var startIndex = (currentPage - 1) * pageSize;
+                var endIndex = startIndex + pageSize;
+                var salesHtml = '';
+                var hasNextPage = data.length > endIndex;
+
+                $.each(data.slice(startIndex, endIndex), function(index, item) {
+                    salesHtml += '<tr style="display: flex; justify-content: space-between; align-items: center;">'; // Apply inline styling to the table row
+                    salesHtml += '<td style="flex: 1;"><a class="d-block f-w-500" href="user-profile.html">' + item.operator_name + '</a><span class="f-light">' + item.transaction_count + '</span></td>'; // Apply inline styling to the first column
+                    salesHtml += '<td class="text-end" style="flex: 1; text-align: right;"><p class="m-0 font-success">VFS' + item.organization_id + '</p></td>'; // Apply inline styling to the second column
+                    salesHtml += '</tr>';
+                });
+
+                $('#salesData').html(salesHtml);
+
+                // Update pagination controls
+                updatePagination(hasNextPage);
+            }
+
+            // Function to update pagination controls
+            function updatePagination(hasNextPage) {
+                var paginationHtml = '';
+                if (currentPage > 1) {
+                    paginationHtml += '<button class="btn btn-outline-primary" id="prevPageBtn" style="margin-right: 5px">Prev</button>';
+                }
+                if (hasNextPage) {
+                    paginationHtml += '<button class="btn btn-outline-primary" id="nextPageBtn">Next</button>';
+                }
+                $('#pagination').html(paginationHtml);
+            }
+
+            // Function to fetch sales data from the server
+            function fetchSalesData() {
+                console.log("Fetching sales data...");  // Debugging statement
+                $.ajax({
+                    url: '/arkataret-top/?format=json',
+                    method: 'GET',
+                    success: function(response) {
+                        console.log("Sales data fetched successfully:", response);  // Debugging statement
+                        if (response && response.operators) {
+                            populateSalesData(response.operators);
+                        } else {
+                            console.error("Invalid response format:", response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching sales data:', error);
+                    }
+                });
+            }
+
+            // Fetch sales data initially
+            fetchSalesData();
+
+            // Previous page button click event handler
+            $(document).on('click', '#prevPageBtn', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchSalesData();
+                }
+            });
+
+            // Next page button click event handler
+            $(document).on('click', '#nextPageBtn', function() {
+                currentPage++;
+                fetchSalesData();
+            });
+        });
+    </script>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var currentPage = 1;
+    var pageSize = 5;
+
+    // Function to populate top customers data
+    function populateTopCustomersData(data) {
+        console.log("Populating top customers data:", data);  // Debugging statement
+        var startIndex = (currentPage - 1) * pageSize;
+        var endIndex = startIndex + pageSize;
+        var topCustomersHtml = '';
+        var hasNextPage = data.length > endIndex;
+
+        $.each(data.slice(startIndex, endIndex), function(index, item) {
+            topCustomersHtml += '<tr style="display: flex; justify-content: space-between; align-items: center;">'; // Apply inline styling to the table row
+            topCustomersHtml += '<td style="flex: 1;"><a class="d-block f-w-500" href="#">' + item.user__first_name + ' ' + item.user__last_name + '</a><span class="f-light">€' + item.total_spent + '</span></td>'; // Apply inline styling to the first column
+            topCustomersHtml += '<td class="text-end" style="flex: 1; text-align: right;"><p class="m-0 font-success">User ID: ' + item.user__id + '</p></td>'; // Apply inline styling to the second column
+            topCustomersHtml += '</tr>';
+        });
+
+        $('#topCustomersData').html(topCustomersHtml);
+
+        // Update pagination controls
+        updateTopCustomersPagination(hasNextPage);
+    }
+
+    // Function to update pagination controls
+    function updateTopCustomersPagination(hasNextPage) {
+        var paginationHtml = '';
+        if (currentPage > 1) {
+            paginationHtml += '<button class="btn btn-outline-primary" id="prevTopCustomersPageBtn" style="margin-right: 5px">Prev</button>';
+        }
+        if (hasNextPage) {
+            paginationHtml += '<button class="btn btn-outline-primary" id="nextTopCustomersPageBtn">Next</button>';
+        }
+        $('#topCustomersPagination').html(paginationHtml);
+    }
+
+    // Function to fetch top customers data from the server
+    function fetchTopCustomersData() {
+        console.log("Fetching top customers data...");  // Debugging statement
+        $.ajax({
+            url: '/most-valuable-customers/?format=json',
+            method: 'GET',
+            success: function(response) {
+                console.log("Top customers data fetched successfully:", response);  // Debugging statement
+                if (response && response.top_customers) {
+                    populateTopCustomersData(response.top_customers);
+                } else {
+                    console.error("Invalid response format:", response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching top customers data:', error);
+            }
+        });
+    }
+
+    // Fetch top customers data initially
+    fetchTopCustomersData();
+
+    // Previous page button click event handler
+    $(document).on('click', '#prevTopCustomersPageBtn', function() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchTopCustomersData();
+        }
+    });
+
+    // Next page button click event handler
+    $(document).on('click', '#nextTopCustomersPageBtn', function() {
+        currentPage++;
+        fetchTopCustomersData();
+    });
 });
 
 </script>

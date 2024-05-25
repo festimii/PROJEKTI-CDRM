@@ -1,10 +1,12 @@
+import datetime
 
 from django.db.models.functions import TruncDay, TruncHour, TruncWeek, TruncMonth, TruncYear
+from django.middleware import cache
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Sum ,Count ,Max
-from .models import Orders ,Users
-
+from .models import Orders, Users, Transactions
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required   #@login_required ME I VENDOS MA VON ME I BA PROTECT
 
 def fetch_order_summaries(request):
@@ -167,3 +169,66 @@ def fetch_new_users_summary(request):
         return JsonResponse(result, safe=False)
 
     return render(request, 'new_users_summary.html', {'result': result})
+
+def get_highest_operator_organization_id(request):
+    cache_key = 'highest_operator_organization_data'
+
+    # Check if the data is already cached
+    cached_data = cache.get(cache_key)
+    if cached_data:
+        return JsonResponse(cached_data)
+
+    # Get filter parameters from request
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
+    operator_name = request.GET.get('operator_name')
+
+    # Start with the base queryset
+    queryset = Transactions.objects.all()
+
+    # Apply filters to queryset
+    if start_date_str and end_date_str:
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        queryset = queryset.filter(transaction_date__range=(start_date, end_date))
+
+    if operator_name:
+        queryset = queryset.filter(operator_name=operator_name)
+
+    # Count the number of transactions per operator_name
+    operator_counts = queryset.values('operator_name').annotate(count=Count('id'))
+
+    # Initialize a list to store results for all operators
+    operator_results = []
+
+    # Iterate through each operator and retrieve organization ID and transaction count
+    for operator_data in operator_counts:
+        operator_name = operator_data['operator_name']
+        transaction_count = operator_data['count']
+        organization_id = Transactions.objects.filter(
+            operator_name=operator_name).values_list('organization_id', flat=True).first()
+        operator_result = {
+            'operator_name': operator_name,
+            'organization_id': organization_id,
+            'transaction_count': transaction_count
+        }
+        operator_results.append(operator_result)
+
+    # Sort operators from highest to lowest based on transaction count
+    operator_results.sort(key=lambda x: x['transaction_count'], reverse=True)
+
+    # Cache the response
+    cache.set(cache_key, {'operators': operator_results}, timeout=None)  # Set timeout=None for indefinite caching
+
+    return JsonResponse({'operators': operator_results})
+def most_valuable_customers(request):
+    # Aggregate transaction amounts for each user
+    top_customers = Transactions.objects.values('user__first_name', 'user__last_name', 'user__id') \
+        .annotate(total_spent=Sum('invoice_total')) \
+        .order_by('-total_spent')[:10]  # Limit to top 10 customers
+
+    # Convert the QuerySet to a list of dictionaries
+    top_customers_list = list(top_customers)
+
+    # Return the data as a JSON response
+    return JsonResponse({'top_customers': top_customers_list})

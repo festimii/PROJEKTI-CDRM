@@ -200,12 +200,12 @@
     <div class="card">
       <div class="card-header card-no-border">
         <div class="header-top d-flex justify-content-between">
-          <h5 class="f-w-600">Loyality "EComerce" </h5>
+          <h5 class="f-w-600">Consumer Loyality</h5>
           <div class="dropdown icon-dropdown">
-            <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn dropdown-toggle" id="consumer-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="icon-more-alt"></i>
             </button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="consumer-userdropdown">
               <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
               <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
               <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
@@ -221,10 +221,10 @@
               <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1" id="total-users-increase">0</h5>
+              <h5 class="mb-1" id="consumer-total-users-increase">0</h5>
               <span class="font-primary d-flex align-items-center">
                 <i class="icon-arrow-up icon-rotate me-1"></i>
-                <span class="f-w-500" id="percentage-increase">0.00%</span>
+                <span class="f-w-500" id="consumer-percentage-increase">0.00%</span>
               </span>
             </div>
           </div>
@@ -235,10 +235,10 @@
               <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1" id="total-users-decrease">0</h5>
+              <h5 class="mb-1" id="consumer-total-users-decrease">0</h5>
               <span class="font-danger d-flex align-items-center">
                 <i class="icon-arrow-down icon-rotate me-1"></i>
-                <span class="f-w-500" id="percentage-decrease">0.00%</span>
+                <span class="f-w-500" id="consumer-percentage-decrease">0.00%</span>
               </span>
             </div>
           </div>
@@ -246,17 +246,17 @@
       </div>
     </div>
   </div>
-    
-      <div class="col-xxl-6 col-xl-6 box-col-12">
+
+  <div class="col-xxl-6 col-xl-6 box-col-12">
     <div class="card">
       <div class="card-header card-no-border">
         <div class="header-top d-flex justify-content-between">
-          <h5 class="f-w-600">HORECA USERS</h5>
+          <h5 class="f-w-600">Business Horeca</h5>
           <div class="dropdown icon-dropdown">
-            <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn dropdown-toggle" id="business-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="icon-more-alt"></i>
             </button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="business-userdropdown">
               <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
               <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
               <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
@@ -272,10 +272,10 @@
               <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1" id="total-users-increase">0</h5>
+              <h5 class="mb-1" id="business-total-users-increase">0</h5>
               <span class="font-primary d-flex align-items-center">
                 <i class="icon-arrow-up icon-rotate me-1"></i>
-                <span class="f-w-500" id="percentage-increase">0.00%</span>
+                <span class="f-w-500" id="business-percentage-increase">0.00%</span>
               </span>
             </div>
           </div>
@@ -286,10 +286,10 @@
               <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
             </div>
             <div class="text-end ms-2">
-              <h5 class="mb-1" id="total-users-decrease">0</h5>
+              <h5 class="mb-1" id="business-total-users-decrease">0</h5>
               <span class="font-danger d-flex align-items-center">
                 <i class="icon-arrow-down icon-rotate me-1"></i>
-                <span class="f-w-500" id="percentage-decrease">0.00%</span>
+                <span class="f-w-500" id="business-percentage-decrease">0.00%</span>
               </span>
             </div>
           </div>
@@ -303,61 +303,79 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const userDropdown = document.getElementById('userdropdown');
-
-    async function fetchUserData(filterType = 'daily') {
+    async function fetchUserData(userType, filterType = 'daily') {
         try {
+            console.log(`Fetching data for ${userType} with filter ${filterType}`);
             const response = await fetch(`/new-users-summary/?format=json`);
             const data = await response.json();
-            return data[filterType];
+            console.log(`Data fetched for ${userType} with filter ${filterType}:`, data[filterType][userType]);
+            return data[filterType][userType] || [];
         } catch (error) {
             console.error('Error fetching data:', error);
             return [];
         }
     }
 
-    function updateUserStats(data) {
-        if (!data || data.length === 0) return;
+    function updateUserStats(userType, data) {
+        console.log(`Updating stats for ${userType} with data:`, data);
+        if (!data || data.length === 0) {
+            document.getElementById(`${userType}-total-users-increase`).textContent = 'No data';
+            document.getElementById(`${userType}-percentage-increase`).textContent = 'No data';
+            return;
+        }
 
         const latestData = data[data.length - 1];
-        const previousData = data.length > 1 ? data[data.length - 2] : null;
-
-        const totalUsersIncreaseElement = document.getElementById('total-users-increase');
-        const percentageIncreaseElement = document.getElementById('percentage-increase');
+        const totalUsersIncreaseElement = document.getElementById(`${userType}-total-users-increase`);
+        const percentageIncreaseElement = document.getElementById(`${userType}-percentage-increase`);
 
         totalUsersIncreaseElement.textContent = latestData.total_count.toLocaleString();
-        percentageIncreaseElement.textContent = `${latestData.percentage_difference ? (latestData.percentage_difference > 0 ? '+' : '') + latestData.percentage_difference.toFixed(2) : '0.00'}%`;
+        const percentageDifference = latestData.percentage_difference ? latestData.percentage_difference.toFixed(2) : '0.00';
+        percentageIncreaseElement.textContent = `${percentageDifference}%`;
 
-        // Update with decrease data as well, assuming the API structure and logic supports this
-        const totalUsersDecreaseElement = document.getElementById('total-users-decrease');
-        const percentageDecreaseElement = document.getElementById('percentage-decrease');
-
-        if (previousData) {
-            totalUsersDecreaseElement.textContent = previousData.total_count.toLocaleString();
-            percentageDecreaseElement.textContent = `${previousData.percentage_difference ? (previousData.percentage_difference > 0 ? '+' : '') + previousData.percentage_difference.toFixed(2) : '0.00'}%`;
+        // Change arrow direction and color based on the percentage difference
+        const arrowElement = document.querySelector(`#${userType}-percentage-increase`).previousElementSibling;
+        if (latestData.percentage_difference > 0) {
+            arrowElement.classList.remove('icon-arrow-down', 'font-danger');
+            arrowElement.classList.add('icon-arrow-up', 'font-primary');
+            percentageIncreaseElement.classList.remove('font-danger');
+            percentageIncreaseElement.classList.add('font-primary');
         } else {
-            totalUsersDecreaseElement.textContent = '0';
-            percentageDecreaseElement.textContent = '0.00%';
+            arrowElement.classList.remove('icon-arrow-up', 'font-primary');
+            arrowElement.classList.add('icon-arrow-down', 'font-danger');
+            percentageIncreaseElement.classList.remove('font-primary');
+            percentageIncreaseElement.classList.add('font-danger');
         }
+
+        const totalUsersDecreaseElement = document.getElementById(`${userType}-total-users-decrease`);
+        const percentageDecreaseElement = document.getElementById(`${userType}-percentage-decrease`);
+
+        // Clear the decrease elements since we don't have data for decreases
+        totalUsersDecreaseElement.textContent = 'No DATA';
+        percentageDecreaseElement.textContent = 'NO DATA';
     }
 
-    async function initializeUserStats(filterType = 'daily') {
-        const data = await fetchUserData(filterType);
-        updateUserStats(data);
+    function initializeUserStats(userType, filterType = 'daily') {
+        console.log(`Initializing stats for ${userType} with filter ${filterType}`);
+        fetchUserData(userType, filterType).then(data => updateUserStats(userType, data));
     }
 
-    // Event listener for the dropdown menu
+    // Event listeners for the dropdown menus
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', (event) => {
             const filterType = event.target.getAttribute('data-filter');
-            if (filterType) {
-                initializeUserStats(filterType);
+            const dropdownType = event.target.closest('.dropdown-menu').getAttribute('aria-labelledby');
+            if (filterType && dropdownType) {
+                const userType = dropdownType.split('-')[0]; // Get userType from the dropdown id (e.g., 'consumer-userdropdown')
+                initializeUserStats(userType, filterType);
             }
         });
     });
 
-    initializeUserStats(); // Initial load with default filter (daily)
+    // Initial load with default filter (daily) for both user types
+    initializeUserStats('consumer');
+    initializeUserStats('business');
 });
+
 
 </script>
 

@@ -11,6 +11,8 @@ path('order-summaries/', viewscostum.fetch_order_summaries, name='order_summarie
 path('order-chart/', viewscostum.fetch_order_summaries_total, name='order_summaries_total'),
 path('order-status/', viewscostum.fetch_order_status_summary, name='order_summaries_status'),
 path('new-users-summary/', viewscostum.fetch_new_users_summary, name='new-users-summary'),
+path('arkataret-top/', viewscostum.get_highest_operator_organization_id, name='arkataret-top'),
+path('most-valuable-customers/', viewscostum.most_valuable_customers, name='most_valuable_customers'),
 
     #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 path('', views.index, name="index"),
