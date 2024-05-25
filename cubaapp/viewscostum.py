@@ -5,7 +5,7 @@ from django.middleware import cache
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Sum ,Count ,Max
-from .models import Orders, Users, Transactions
+from .models import Orders, Users, Transactions, TransactionItems
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required   #@login_required ME I VENDOS MA VON ME I BA PROTECT
 
@@ -232,3 +232,11 @@ def most_valuable_customers(request):
 
     # Return the data as a JSON response
     return JsonResponse({'top_customers': top_customers_list})
+
+def most_sold_products(request):
+    # Aggregate quantities for each product
+    top_products = TransactionItems.objects.values('product_id') \
+        .annotate(total_quantity_sold=Sum('quantity')) \
+        .order_by('-total_quantity_sold')[:10]  # Limit to top 10 products
+
+    return JsonResponse({'top_products': list(top_products)})

@@ -13,6 +13,7 @@ path('order-status/', viewscostum.fetch_order_status_summary, name='order_summar
 path('new-users-summary/', viewscostum.fetch_new_users_summary, name='new-users-summary'),
 path('arkataret-top/', viewscostum.get_highest_operator_organization_id, name='arkataret-top'),
 path('most-valuable-customers/', viewscostum.most_valuable_customers, name='most_valuable_customers'),
+path('most-sold-products/', viewscostum.most_sold_products, name='most_sold_products'),
 
     #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 path('', views.index, name="index"),
