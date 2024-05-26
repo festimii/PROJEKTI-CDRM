@@ -196,188 +196,225 @@
 
 {% load static %}
 <div class="row">
-  <div class="col-xxl-6 col-xl-6 box-col-12">
-    <div class="card">
-      <div class="card-header card-no-border">
-        <div class="header-top d-flex justify-content-between">
-          <h5 class="f-w-600">Consumer Loyality</h5>
-          <div class="dropdown icon-dropdown">
-            <button class="btn dropdown-toggle" id="consumer-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="icon-more-alt"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="consumer-userdropdown">
-              <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
-              <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
-              <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
-              <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+    <!-- Business Horeca Card -->
+    <div class="col-xxl-4 col-xl-6 box-col-12">
+        <div class="card">
+            <div class="card-header card-no-border">
+                <div class="header-top d-flex justify-content-between">
+                    <h5 class="f-w-600">Business Horeca</h5>
+                    <div class="dropdown icon-dropdown">
+                        <button class="btn dropdown-toggle" id="business-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="icon-more-alt"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="business-userdropdown">
+                            <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+                            <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
+                            <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+                            <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="card-body pt-0 d-flex align-items-center justify-content-between">
+                <div class="user-stats">
+                    <div class="d-flex align-items-center">
+                        <div class="user-icon primary">
+                            <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
+                        </div>
+                        <div class="text-end ms-2">
+                            <h5 class="mb-1" id="business-daily-total-users-increase">0</h5>
+                            <span class="font-primary d-flex align-items-center">
+                                <i class="icon-arrow-up icon-rotate me-1"></i>
+                                <span class="f-w-500" id="business-daily-percentage-increase">0.00%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-stats">
+                    <div class="d-flex align-items-center">
+                        <div class="user-icon success">
+                            <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
+                        </div>
+                        <div class="text-end ms-2">
+                            <h5 class="mb-1" id="business-daily-total-users-decrease">0</h5>
+                            <span class="font-danger d-flex align-items-center">
+                                <i class="icon-arrow-down icon-rotate me-1"></i>
+                                <span class="f-w-500" id="business-daily-percentage-decrease">0.00%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div id="business-daily-chart"></div>
+            </div>
         </div>
-      </div>
-      <div class="card-body pt-0 d-flex align-items-center justify-content-between">
-        <div class="user-stats">
-          <div class="d-flex align-items-center">
-            <div class="user-icon primary">
-              <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
-            </div>
-            <div class="text-end ms-2">
-              <h5 class="mb-1" id="consumer-total-users-increase">0</h5>
-              <span class="font-primary d-flex align-items-center">
-                <i class="icon-arrow-up icon-rotate me-1"></i>
-                <span class="f-w-500" id="consumer-percentage-increase">0.00%</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="user-stats">
-          <div class="d-flex align-items-center">
-            <div class="user-icon success">
-              <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
-            </div>
-            <div class="text-end ms-2">
-              <h5 class="mb-1" id="consumer-total-users-decrease">0</h5>
-              <span class="font-danger d-flex align-items-center">
-                <i class="icon-arrow-down icon-rotate me-1"></i>
-                <span class="f-w-500" id="consumer-percentage-decrease">0.00%</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="col-xxl-6 col-xl-6 box-col-12">
-    <div class="card">
-      <div class="card-header card-no-border">
-        <div class="header-top d-flex justify-content-between">
-          <h5 class="f-w-600">Business Horeca</h5>
-          <div class="dropdown icon-dropdown">
-            <button class="btn dropdown-toggle" id="business-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="icon-more-alt"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="business-userdropdown">
-              <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
-              <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
-              <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
-              <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+
+    <div class="col-xxl-4 col-xl-3 col-sm-6 box-col-6">
+        <div class="card">
+          <div class="card-body pt-0">
+            <div class="monthly-profit">
+              <div id="profitmonthly1"></div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-body pt-0 d-flex align-items-center justify-content-between">
-        <div class="user-stats">
-          <div class="d-flex align-items-center">
-            <div class="user-icon primary">
-              <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
-            </div>
-            <div class="text-end ms-2">
-              <h5 class="mb-1" id="business-total-users-increase">0</h5>
-              <span class="font-primary d-flex align-items-center">
-                <i class="icon-arrow-up icon-rotate me-1"></i>
-                <span class="f-w-500" id="business-percentage-increase">0.00%</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="user-stats">
-          <div class="d-flex align-items-center">
-            <div class="user-icon success">
-              <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
-            </div>
-            <div class="text-end ms-2">
-              <h5 class="mb-1" id="business-total-users-decrease">0</h5>
-              <span class="font-danger d-flex align-items-center">
-                <i class="icon-arrow-down icon-rotate me-1"></i>
-                <span class="f-w-500" id="business-percentage-decrease">0.00%</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+
+    <!-- Consumer Loyalty Card -->
+    <div class="col-xxl-4 col-xl-6 box-col-12">
+        <div class="card">
+            <div class="card-header card-no-border">
+                <div class="header-top d-flex justify-content-between">
+                    <h5 class="f-w-600">Consumer Loyalty</h5>
+                    <div class="dropdown icon-dropdown">
+                        <button class="btn dropdown-toggle" id="consumer-userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="icon-more-alt"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="consumer-userdropdown">
+                            <a class="dropdown-item" href="#" data-filter="daily">Daily</a>
+                            <a class="dropdown-item" href="#" data-filter="weekly">Weekly</a>
+                            <a class="dropdown-item" href="#" data-filter="monthly">Monthly</a>
+                            <a class="dropdown-item" href="#" data-filter="yearly">Yearly</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0 d-flex align-items-center justify-content-between">
+                <div class="user-stats">
+                    <div class="d-flex align-items-center">
+                        <div class="user-icon primary">
+                            <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
+                        </div>
+                        <div class="text-end ms-2">
+                            <h5 class="mb-1" id="consumer-total-users-increase">0</h5>
+                            <span class="font-primary d-flex align-items-center">
+                                <i class="icon-arrow-up icon-rotate me-1"></i>
+                                <span class="f-w-500" id="consumer-percentage-increase">0.00%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-stats">
+                    <div class="d-flex align-items-center">
+                        <div class="user-icon success">
+                            <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
+                        </div>
+                        <div class="text-end ms-2">
+                            <h5 class="mb-1" id="consumer-total-users-decrease">0</h5>
+                            <span class="font-danger d-flex align-items-center">
+                                <i class="icon-arrow-down icon-rotate me-1"></i>
+                                <span class="f-w-500" id="consumer-percentage-decrease">0.00%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div id="consumer-daily-chart"></div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    async function fetchUserData(userType, filterType = 'daily') {
-        try {
-            console.log(`Fetching data for ${userType} with filter ${filterType}`);
-            const response = await fetch(`/new-users-summary/?format=json`);
-            const data = await response.json();
-            console.log(`Data fetched for ${userType} with filter ${filterType}:`, data[filterType][userType]);
-            return data[filterType][userType] || [];
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            return [];
-        }
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    const businessDropdownItems = document.querySelectorAll('#business-userdropdown .dropdown-item');
 
-    function updateUserStats(userType, data) {
-        console.log(`Updating stats for ${userType} with data:`, data);
-        if (!data || data.length === 0) {
-            document.getElementById(`${userType}-total-users-increase`).textContent = 'No data';
-            document.getElementById(`${userType}-percentage-increase`).textContent = 'No data';
-            return;
-        }
+    const businessTotalUsersIncreaseElem = document.getElementById('business-daily-total-users-increase');
+    const businessPercentageIncreaseElem = document.getElementById('business-daily-percentage-increase');
+    const businessTotalUsersDecreaseElem = document.getElementById('business-daily-total-users-decrease');
+    const businessPercentageDecreaseElem = document.getElementById('business-daily-percentage-decrease');
 
-        const latestData = data[data.length - 1];
-        const totalUsersIncreaseElement = document.getElementById(`${userType}-total-users-increase`);
-        const percentageIncreaseElement = document.getElementById(`${userType}-percentage-increase`);
+    let businessData = null;
 
-        totalUsersIncreaseElement.textContent = latestData.total_count.toLocaleString();
-        const percentageDifference = latestData.percentage_difference ? latestData.percentage_difference.toFixed(2) : '0.00';
-        percentageIncreaseElement.textContent = `${percentageDifference}%`;
-
-        // Change arrow direction and color based on the percentage difference
-        const arrowElement = document.querySelector(`#${userType}-percentage-increase`).previousElementSibling;
-        if (latestData.percentage_difference > 0) {
-            arrowElement.classList.remove('icon-arrow-down', 'font-danger');
-            arrowElement.classList.add('icon-arrow-up', 'font-primary');
-            percentageIncreaseElement.classList.remove('font-danger');
-            percentageIncreaseElement.classList.add('font-primary');
-        } else {
-            arrowElement.classList.remove('icon-arrow-up', 'font-primary');
-            arrowElement.classList.add('icon-arrow-down', 'font-danger');
-            percentageIncreaseElement.classList.remove('font-primary');
-            percentageIncreaseElement.classList.add('font-danger');
-        }
-
-        const totalUsersDecreaseElement = document.getElementById(`${userType}-total-users-decrease`);
-        const percentageDecreaseElement = document.getElementById(`${userType}-percentage-decrease`);
-
-        // Clear the decrease elements since we don't have data for decreases
-        totalUsersDecreaseElement.textContent = 'No DATA';
-        percentageDecreaseElement.textContent = 'NO DATA';
-    }
-
-    function initializeUserStats(userType, filterType = 'daily') {
-        console.log(`Initializing stats for ${userType} with filter ${filterType}`);
-        fetchUserData(userType, filterType).then(data => updateUserStats(userType, data));
-    }
-
-    // Event listeners for the dropdown menus
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (event) => {
-            const filterType = event.target.getAttribute('data-filter');
-            const dropdownType = event.target.closest('.dropdown-menu').getAttribute('aria-labelledby');
-            if (filterType && dropdownType) {
-                const userType = dropdownType.split('-')[0]; // Get userType from the dropdown id (e.g., 'consumer-userdropdown')
-                initializeUserStats(userType, filterType);
-            }
+    businessDropdownItems.forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            const filter = this.getAttribute('data-filter');
+            updateBusinessContent(filter);
         });
     });
 
-    // Initial load with default filter (daily) for both user types
-    initializeUserStats('consumer');
-    initializeUserStats('business');
+    function fetchBusinessData() {
+        fetch('/business_summary/?format=json')
+            .then(response => response.json())
+            .then(data => {
+                businessData = data;
+                updateBusinessContent('weekly'); // Default to daily
+            })
+            .catch(error => console.error('Error fetching business data:', error));
+    }
+
+    function updateBusinessContent(filter) {
+        if (!businessData) return;
+
+        const data = businessData[filter];
+        const enabled = data.enabled[0];
+        const disabled = data.disabled[0];
+
+        businessTotalUsersIncreaseElem.textContent = enabled.total_count;
+        businessPercentageIncreaseElem.textContent = enabled.percentage_difference.toFixed(2) + '%';
+        businessTotalUsersDecreaseElem.textContent = disabled.total_count;
+        businessPercentageDecreaseElem.textContent = disabled.percentage_difference.toFixed(2) + '%';
+    }
+
+    // Fetch initial data for business card
+    fetchBusinessData();
 });
-
-
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const consumerDropdownItems = document.querySelectorAll('#consumer-userdropdown .dropdown-item');
+
+    const consumerTotalUsersIncreaseElem = document.getElementById('consumer-total-users-increase');
+    const consumerPercentageIncreaseElem = document.getElementById('consumer-percentage-increase');
+    const consumerTotalUsersDecreaseElem = document.getElementById('consumer-total-users-decrease');
+    const consumerPercentageDecreaseElem = document.getElementById('consumer-percentage-decrease');
+
+    let consumerData = null;
+
+    consumerDropdownItems.forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            const filter = this.getAttribute('data-filter');
+            updateConsumerContent(filter);
+        });
+    });
+
+    function fetchConsumerData() {
+        fetch('/consumer_summary/?format=json')
+            .then(response => response.json())
+            .then(data => {
+                consumerData = data;
+                updateConsumerContent('weekly'); // Default to daily
+            })
+            .catch(error => console.error('Error fetching consumer data:', error));
+    }
+
+    function updateConsumerContent(filter) {
+        if (!consumerData) return;
+
+        const data = consumerData[filter];
+        const enabled = data.enabled[0];
+        const disabled = data.disabled[0];
+
+        consumerTotalUsersIncreaseElem.textContent = enabled.total_count;
+        consumerPercentageIncreaseElem.textContent = enabled.percentage_difference.toFixed(2) + '%';
+        consumerTotalUsersDecreaseElem.textContent = disabled.total_count;
+        consumerPercentageDecreaseElem.textContent = disabled.percentage_difference.toFixed(2) + '%';
+    }
+
+    // Fetch initial data for consumer card
+    fetchConsumerData();
+});
+</script>
+
+
+
+
 
 
 
@@ -413,3 +450,132 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-left: 0.5rem;
   }
 </style>
+
+
+ <script>
+// profit monthly
+var optionsprofit = {
+    labels: ['Loyality', 'Horeca'],
+    series: [9947, 400],
+    chart: {
+      type: 'donut',
+      height: 230, // Adjusted height to make the chart smaller
+    },
+    dataLabels: {
+          enabled: false
+    },
+    legend: {
+        position: 'bottom',
+        fontSize: '14px',
+        fontFamily: 'Rubik, sans-serif',
+        fontWeight: 500,
+        labels: {
+          colors: ["var(--chart-text-color)"],
+        },
+        markers: {
+          width: 6,
+          height: 6,
+        },
+        itemMargin: {
+          horizontal: 7,
+          vertical: 0
+        },
+    },
+    stroke: {
+      width: 10,
+      colors: ["var(--light2)"],
+    },
+    plotOptions: {
+      pie: {
+        expandOnClick: false,
+        donut: {
+          size: '83%',
+          labels: {
+              show: true,
+              name: {
+                offsetY: 4,
+              },
+              total: {
+                show: true,
+                fontSize: '20px',
+                fontFamily: 'Rubik, sans-serif',
+                fontWeight: 500,
+                label: '   10000',
+                formatter: () => 'Total Users'
+              }
+            },
+        }
+      }
+    },
+    states: {
+      normal: {
+          filter: {
+              type: 'none',
+          }
+      },
+      hover: {
+          filter: {
+              type: 'none',
+          }
+      },
+      active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+              type: 'none',
+          }
+      },
+    },
+    colors: ["#54BA4A", "var(--theme-deafult)", "#FFA941"],
+    responsive: [{
+      breakpoint: 1630,
+      options: {
+        chart: {
+          height: 190 // Adjusted height for the responsive breakpoint
+        },
+      }
+    },
+    {
+      breakpoint: 1584,
+      options: {
+        chart: {
+          height: 130 // Adjusted height for the responsive breakpoint
+        },
+      }
+    },
+    {
+      breakpoint: 1473,
+      options: {
+        chart: {
+          height: 130 // Adjusted height for the responsive breakpoint
+        },
+      }
+    },
+    {
+      breakpoint: 1425,
+      options: {
+        chart: {
+          height: 130 // Adjusted height for the responsive breakpoint
+        },
+      }
+    },
+    {
+      breakpoint: 1400,
+      options: {
+        chart: {
+          height: 130 // Adjusted height for the responsive breakpoint
+        },
+      }
+    },
+    {
+      breakpoint: 480,
+      options: {
+        chart: {
+          height: 120 // Adjusted height for the responsive breakpoint
+        },
+      }
+    }]
+};
+
+var chartprofit = new ApexCharts(document.querySelector("#profitmonthly1"), optionsprofit);
+chartprofit.render();
+</script>

@@ -603,7 +603,6 @@ class TimeSlots(models.Model):
     class Meta:
         db_table = 'time_slots'
 
-
 class Users(models.Model):
     id = models.BigAutoField(primary_key=True)
     first_name = models.CharField(max_length=255)
@@ -654,6 +653,11 @@ class Users(models.Model):
 
     class Meta:
         db_table = 'users'
+        indexes = [
+            models.Index(fields=['id']),
+            models.Index(fields=['type']),
+            models.Index(fields=['created_at']),
+        ]
 
 class Transactions(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -673,6 +677,13 @@ class Transactions(models.Model):
 
     class Meta:
         db_table = 'transactions'
+        indexes = [
+            models.Index(fields=['id']),
+            models.Index(fields=['user']),
+            models.Index(fields=['organization_id']),
+            models.Index(fields=['operator_name']),
+            models.Index(fields=['created_date']),
+        ]
 
 class TransactionItems(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -688,6 +699,12 @@ class TransactionItems(models.Model):
 
     class Meta:
         db_table = 'transaction_items'
+        indexes = [
+            models.Index(fields=['id']),
+            models.Index(fields=['transaction']),
+            models.Index(fields=['product_id']),
+            models.Index(fields=['created_at']),
+        ]
 class TransportTypes(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)

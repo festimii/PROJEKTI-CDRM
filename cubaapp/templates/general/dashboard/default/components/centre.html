@@ -960,10 +960,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     var currentPage = 1;
     var pageSize = 5;
+
+    // Function to format the number with 'k' for thousands and 'm' for millions
+    function formatNumber(value) {
+        if (value >= 1000000) {
+            return (value / 1000000).toFixed(1) + 'm';
+        } else if (value >= 1000) {
+            return (value / 1000).toFixed(1) + 'k';
+        } else {
+            return value;
+        }
+    }
 
     // Function to populate top customers data
     function populateTopCustomersData(data) {
@@ -975,7 +985,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $.each(data.slice(startIndex, endIndex), function(index, item) {
             topCustomersHtml += '<tr style="display: flex; justify-content: space-between; align-items: center;">'; // Apply inline styling to the table row
-            topCustomersHtml += '<td style="flex: 1;"><a class="d-block f-w-500" href="#">' + item.user__first_name + ' ' + item.user__last_name + '</a><span class="f-light">€' + item.total_spent + '</span></td>'; // Apply inline styling to the first column
+            topCustomersHtml += '<td style="flex: 1;"><a class="d-block f-w-500" href="#">' + item.user__first_name + ' ' + item.user__last_name + '</a><span class="f-light">€' + formatNumber(item.total_spent) + '</span></td>'; // Apply inline styling to the first column
             topCustomersHtml += '<td class="text-end" style="flex: 1; text-align: right;"><p class="m-0 font-success">User ID: ' + item.user__id + '</p></td>'; // Apply inline styling to the second column
             topCustomersHtml += '</tr>';
         });
@@ -1035,7 +1045,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchTopCustomersData();
     });
 });
-
 </script>
 
 <script>
