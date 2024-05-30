@@ -3,12 +3,19 @@ from django.views.decorators.cache import cache_page
 from django.db.models.functions import TruncDay, TruncHour, TruncWeek, TruncMonth, TruncYear
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.db.models import Sum, Count, Max
+from django.db.models import Sum, Count, Max , DecimalField , Avg , ExpressionWrapper, DurationField,F
 from .models import Orders, Users, Transactions, TransactionItems
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from datetime import datetime as dt
+from django.db.models.functions import Coalesce
+from django.db.models.functions import TruncQuarter
+from django.utils import timezone
+import logging
+from decimal import Decimal
 
+# Define a logger
+logger = logging.getLogger(__name__)
 def fetch_order_summaries(request):
     orders = Orders.objects.all()
     order_summaries = orders.values('order_type').annotate(total_sum=Sum('total'))
@@ -292,3 +299,214 @@ def fetch_all_users_summary(request):
         return JsonResponse(result)
 
     return render(request, 'all_users_summary.html', {'result': result})
+def transaction_stats_api(request):
+    # Get overall transaction sum for all users
+    overall_sum = Transactions.objects.aggregate(overall_sum=Sum('invoice_total'))['overall_sum'] or 0
+
+    # Get transaction sum for business users
+    business_sum = Transactions.objects.filter(user__type='business').aggregate(business_sum=Sum('invoice_total'))['business_sum'] or 0
+
+    # Get average basket price for consumers
+    consumer_avg_price = Transactions.objects.filter(user__type='consumer').aggregate(consumer_avg_price=Avg('invoice_total'))['consumer_avg_price'] or 0
+
+    # Get average basket price for business users
+    business_avg_price = Transactions.objects.filter(user__type='business').aggregate(business_avg_price=Avg('invoice_total'))['business_avg_price'] or 0
+
+    # Convert results to Decimal
+    overall_sum = Decimal(overall_sum)
+    business_sum = Decimal(business_sum)
+    consumer_avg_price = Decimal(consumer_avg_price)
+    business_avg_price = Decimal(business_avg_price)
+
+    # Prepare the response data
+    response_data = {
+        'overall_transaction_sum': overall_sum,
+        'business_transaction_sum': business_sum,
+        'consumer_average_basket_price': consumer_avg_price,
+        'business_average_basket_price': business_avg_price,
+    }
+
+    # Return the data as JSON response
+    return JsonResponse(response_data)
+
+from django.http import JsonResponse
+from django.db.models import Min, Max
+from .models import Users
+
+
+def calculate_customer_retention_rate(period_start, period_end, time_filter):
+    log_messages = []
+
+    # Helper function to log messages
+    def log(message):
+        log_messages.append(message)
+        logger.info(message)
+
+    log(f"Calculating retention rate for {time_filter} period from {period_start} to {period_end}")
+
+    # Determine the time filter to use
+    if time_filter == 'month':
+        trunc_function = TruncMonth('created_at')
+    elif time_filter == 'quarter':
+        trunc_function = TruncQuarter('created_at')
+    elif time_filter == 'year':
+        trunc_function = TruncYear('created_at')
+    else:
+        raise ValueError("Invalid time filter. Use 'month', 'quarter', or 'year'.")
+
+    # Find the earliest and latest timestamps in the Users table for the given period
+    queryset = Users.objects.filter(created_at__range=(period_start, period_end)).annotate(period=trunc_function)
+    period_info = queryset.aggregate(Min('created_at'), Max('created_at'))
+    earliest_period = period_info['created_at__min']
+    latest_period = period_info['created_at__max']
+
+    log(f"Earliest timestamp: {earliest_period}, Latest timestamp: {latest_period}")
+
+    # If there are no records in the table for the given period, return retention rate of 0
+    if not earliest_period or not latest_period:
+        message = "No records found for the period"
+        log(message)
+        return 0, None, 0, 0, 0, message  # Include a message indicating no records found
+
+    # Calculate the number of unique customers at the start and end of the period
+    customers_at_start = Users.objects.filter(created_at__lte=earliest_period).values('id').distinct().count()
+    customers_at_end = Users.objects.filter(created_at__lte=latest_period).values('id').distinct().count()
+    new_customers = Users.objects.filter(created_at__range=(period_start, period_end)).values('id').distinct().count()
+
+    log(f"Unique customers at start of period: {customers_at_start}, Unique customers at end of period: {customers_at_end}")
+    log(f"New customers during the period: {new_customers}")
+
+
+    # Calculate retention rate using the given formula
+    retention_rate = ((customers_at_end - new_customers) / customers_at_start) * 100
+    formatted_retention_rate = f"{retention_rate:.1f}%"  # Format the retention rate to one decimal place
+    log(f"Retention rate calculated: {formatted_retention_rate}")
+
+    return formatted_retention_rate, earliest_period, customers_at_start, customers_at_end, new_customers, log_messages
+
+
+def retention_rate_view(request):
+    start_year = 2021
+    end_year = 2024
+    result = {}
+
+    for year in range(start_year, end_year + 1):
+        year_result = {}
+        for time_filter in ['year', 'quarter', 'month']:
+            if time_filter == 'month':
+                for month in range(1, 13):
+                    # Create an aware datetime object for the start of the month
+                    period_start = timezone.make_aware(timezone.datetime(year, month, 1))
+                    # Create an aware datetime object for the end of the month
+                    if month == 12:
+                        period_end = timezone.make_aware(timezone.datetime(year, month, 31, 23, 59, 59))
+                    else:
+                        period_end = timezone.make_aware(
+                            timezone.datetime(year, month + 1, 1) - timezone.timedelta(seconds=1))
+                    retention_rate, earliest_period, customers_at_start, customers_at_end, new_customers, log_messages = calculate_customer_retention_rate(
+                        period_start, period_end, time_filter)
+
+                    year_result[f"{time_filter}-{month}"] = {
+                        'customer_retention_rate': retention_rate,
+                        'earliest_period': earliest_period.strftime('%Y-%m-%d') if earliest_period else None,
+                        'customers_at_start': customers_at_start,
+                        'customers_at_end': customers_at_end,
+                        'new_customers': new_customers,
+                        'log_messages': log_messages  # Include log messages in the response
+                    }
+            else:
+                # Create an aware datetime object for the start of the period
+                period_start = timezone.make_aware(timezone.datetime(year, 1, 1))
+                # Create an aware datetime object for the end of the period
+                period_end = timezone.make_aware(timezone.datetime(year, 12, 31, 23, 59, 59))
+                retention_rate, earliest_period, customers_at_start, customers_at_end, new_customers, log_messages = calculate_customer_retention_rate(
+                    period_start, period_end, time_filter)
+
+                year_result[time_filter] = {
+                    'customer_retention_rate': retention_rate,
+                    'earliest_period': earliest_period.strftime('%Y-%m-%d') if earliest_period else None,
+                    'customers_at_start': customers_at_start,
+                    'customers_at_end': customers_at_end,
+                    'new_customers': new_customers,
+                    'log_messages': log_messages  # Include log messages in the response
+                }
+        result[year] = year_result
+
+    return JsonResponse(result)
+
+
+def calculate_repeat_purchase_rate():
+    # Aggregate the number of transactions for each user
+    user_transaction_counts = Transactions.objects.values('user').annotate(transaction_count=Count('id'))
+
+    # Number of customers who made more than one purchase
+    customers_with_multiple_purchases = user_transaction_counts.filter(transaction_count__gt=1).count()
+
+    # Total number of unique customers
+    total_customers = user_transaction_counts.count()
+
+    # Calculate Repeat Purchase Rate
+    repeat_purchase_rate = (customers_with_multiple_purchases / total_customers) * 100 if total_customers > 0 else 0
+
+    return repeat_purchase_rate, customers_with_multiple_purchases, total_customers
+
+
+def repeat_purchase_rate_view(request):
+    # Calculate the Repeat Purchase Rate
+    repeat_purchase_rate, customers_with_multiple_purchases, total_customers = calculate_repeat_purchase_rate()
+
+    # Create a JSON response
+    data = {
+        'repeat_purchase_rate': f"{repeat_purchase_rate:.2f}%",
+        'customers_with_multiple_purchases': customers_with_multiple_purchases,
+        'total_customers': total_customers,
+    }
+    return JsonResponse(data)
+
+
+def calculate_customer_lifetime_value():
+    # Calculate total revenue
+    total_revenue = Transactions.objects.aggregate(total_revenue=Sum('invoice_total'))['total_revenue'] or Decimal(0)
+
+    # Calculate total number of transactions
+    total_transactions = Transactions.objects.count()
+
+    # Calculate the number of unique customers
+    total_customers = Transactions.objects.values('user').distinct().count()
+
+    # Calculate Average Purchase Value (APV)
+    average_purchase_value = total_revenue / Decimal(total_transactions) if total_transactions > 0 else Decimal(0)
+
+    # Calculate Purchase Frequency (PF)
+    purchase_frequency = Decimal(total_transactions) / Decimal(total_customers) if total_customers > 0 else Decimal(0)
+
+    # Calculate Customer Lifespan (CL)
+    # Calculate the average lifespan of a customer
+    user_lifespans = Transactions.objects.values('user').annotate(
+        first_purchase=Min('created_at'),
+        last_purchase=Max('created_at')
+    ).annotate(
+        lifespan=ExpressionWrapper(F('last_purchase') - F('first_purchase'), output_field=DurationField())
+    ).aggregate(average_lifespan=Avg('lifespan'))['average_lifespan'] or 0
+
+    average_customer_lifespan = Decimal(
+        user_lifespans.total_seconds() / (365 * 24 * 3600)) if user_lifespans else Decimal(0)
+
+    # Calculate Customer Lifetime Value (CLV)
+    customer_lifetime_value = average_purchase_value * purchase_frequency * average_customer_lifespan
+
+    return customer_lifetime_value, average_purchase_value, purchase_frequency, average_customer_lifespan
+
+
+def customer_lifetime_value_view(request):
+    # Calculate the Customer Lifetime Value (CLV)
+    customer_lifetime_value, average_purchase_value, purchase_frequency, average_customer_lifespan = calculate_customer_lifetime_value()
+
+    # Create a JSON response
+    data = {
+        'customer_lifetime_value': f"${customer_lifetime_value:.2f}",
+        'average_purchase_value': f"${average_purchase_value:.2f}",
+        'purchase_frequency': f"{purchase_frequency:.2f}",
+        'customer_lifespan': f"{average_customer_lifespan:.2f} years",
+    }
+    return JsonResponse(data)

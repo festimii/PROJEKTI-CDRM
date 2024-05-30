@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 businessData = data;
-                updateBusinessContent('weekly'); // Default to daily
+                updateBusinessContent('monthly'); // Default to daily
             })
             .catch(error => console.error('Error fetching business data:', error));
     }
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 consumerData = data;
-                updateConsumerContent('weekly'); // Default to daily
+                updateConsumerContent('monthly'); // Default to daily
             })
             .catch(error => console.error('Error fetching consumer data:', error));
     }
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // profit monthly
 var optionsprofit = {
     labels: ['Loyality', 'Horeca'],
-    series: [9947, 400],
+    series: [410926, 3984],
     chart: {
       type: 'donut',
       height: 230, // Adjusted height to make the chart smaller
@@ -500,7 +500,7 @@ var optionsprofit = {
                 fontSize: '20px',
                 fontFamily: 'Rubik, sans-serif',
                 fontWeight: 500,
-                label: '   10000',
+                label: '414,910',
                 formatter: () => 'Total Users'
               }
             },

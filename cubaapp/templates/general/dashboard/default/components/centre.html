@@ -2,7 +2,7 @@
 <div class="col-xxl-8 col-lg-12 box-col-12 position-relative">
   <div class="card">
     <div class="card-header card-no-border d-flex justify-content-between align-items-center">
-      <h5>Overall balance</h5>
+      <h5>Overall Orders</h5>
       <div class="dropdown icon-dropdown">
         <button class="btn dropdown-toggle" id="dataFilterDropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="icon-more-alt"></i>
@@ -290,153 +290,154 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-  var options = {
-    series: [
-      {
-        name: 'HORECA',
-        data: []
-      },
-      {
-        name: 'LOYALTY',
-        data: []
-      }
-    ],
-    chart: {
-      type: 'bar',
-      height: 400,
-      stacked: true,
-      toolbar: {
-        show: false,
-      },
-      dropShadow: {
-        enabled: true,
-        top: 8,
-        left: 0,
-        blur: 10,
-        color: '#7064F5',
-        opacity: 0.1
-      }
+var options = {
+  series: [
+    {
+      name: 'HORECA',
+      data: []
     },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '25px',
-        borderRadius: 0,
-      },
+    {
+      name: 'LOYALTY',
+      data: []
+    }
+  ],
+  chart: {
+    type: 'bar',
+    height: '100%', // Set the height to 100% to fill its container
+    stacked: true,
+    toolbar: {
+      show: false,
     },
-    grid: {
+    dropShadow: {
+      enabled: true,
+      top: 8,
+      left: 0,
+      blur: 10,
+      color: '#7064F5',
+      opacity: 0.1
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: '25px',
+      borderRadius: 0,
+    },
+  },
+  grid: {
+    show: true,
+    borderColor: 'var(--chart-border)',
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    width: 2,
+    dashArray: 0,
+    lineCap: 'butt',
+    colors: "#fff",
+  },
+  fill: {
+    opacity: 1
+  },
+  legend: {
+    show: false
+  },
+  states: {
+    hover: {
+      filter: {
+        type: 'darken',
+        value: 1,
+      }
+    }
+  },
+  colors: ['#7366FF', '#AAAFCB'],
+  yaxis: {
+    tickAmount: 3,
+    labels: {
+      formatter: function (value) {
+        if (value >= 1000000) {
+          return (value / 1000000).toFixed(1) + 'M';
+        } else if (value >= 1000) {
+          return (value / 1000).toFixed(1) + 'K';
+        } else {
+          return value.toFixed(0);
+        }
+      },
       show: true,
-      borderColor: 'var(--chart-border)',
+      style: {
+        fontFamily: 'Rubik, sans-serif',
+      },
     },
-    dataLabels: {
-      enabled: false,
+    axisBorder: {
+      show: false,
     },
-    stroke: {
-      width: 2,
-      dashArray: 0,
-      lineCap: 'butt',
-      colors: "#fff",
+    axisTicks: {
+      show: false,
     },
-    fill: {
-      opacity: 1
+  },
+  xaxis: {
+    categories: [],
+    labels: {
+      style: {
+        fontFamily: 'Rubik, sans-serif',
+      },
     },
-    legend: {
-      show: false
+    axisBorder: {
+      show: false,
     },
-    states: {
-      hover: {
-        filter: {
-          type: 'darken',
-          value: 1,
+    axisTicks: {
+      show: false,
+    },
+  },
+  responsive: [
+    {
+      breakpoint: 1661,
+      options: {
+        chart: {
+          height: '90%', // Set the height to a percentage for responsiveness
         }
       }
     },
-    colors: ['#7366FF', '#AAAFCB'],
-    yaxis: {
-      tickAmount: 3,
-      labels: {
-        formatter: function (value) {
-          if (value >= 1000000) {
-            return (value / 1000000).toFixed(1) + 'M';
-          } else if (value >= 1000) {
-            return (value / 1000).toFixed(1) + 'K';
-          } else {
-            return value.toFixed(0);
-          }
-        },
-        show: true,
-        style: {
-          fontFamily: 'Rubik, sans-serif',
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    xaxis: {
-      categories: [],
-      labels: {
-        style: {
-          fontFamily: 'Rubik, sans-serif',
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 1661,
-        options: {
-          chart: {
-            height: 290,
-          }
-        }
-      },
-      {
-        breakpoint: 767,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: '35px',
-            },
+    {
+      breakpoint: 767,
+      options: {
+        plotOptions: {
+          bar: {
+            columnWidth: '35px',
           },
-          yaxis: {
-            labels: {
-              show: true,
-            }
+        },
+        yaxis: {
+          labels: {
+            show: true,
           }
         }
-      },
-      {
-        breakpoint: 481,
-        options: {
-          chart: {
-            height: 200,
-          }
+      }
+    },
+    {
+      breakpoint: 481,
+      options: {
+        chart: {
+          height: '70%', // Set the height to a percentage for responsiveness
         }
-      },
-      {
-        breakpoint: 420,
-        options: {
-          chart: {
-            height: 170,
+      }
+    },
+    {
+      breakpoint: 420,
+      options: {
+        chart: {
+          height: '60%', // Set the height to a percentage for responsiveness
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '40px',
           },
-          plotOptions: {
-            bar: {
-              columnWidth: '40px',
-            },
-          }
         }
-      },
-    ]
-  };
+      }
+    },
+  ]
+};
+
 
   async function fetchChartData() {
     try {
@@ -522,7 +523,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    fetch("http://localhost:8000/order-summaries/?format=json")
+    fetch("/order-summaries/?format=json")
       .then(response => response.json())
       .then(data => {
         data.forEach(item => {
