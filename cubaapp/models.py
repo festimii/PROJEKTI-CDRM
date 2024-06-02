@@ -681,7 +681,6 @@ class Transactions(models.Model):
             models.Index(fields=['id']),
             models.Index(fields=['user']),
             models.Index(fields=['organization_id']),
-            models.Index(fields=['created_at']),  # Add index on created_at field
             models.Index(fields=['operator_name']),
             models.Index(fields=['created_date']),
         ]

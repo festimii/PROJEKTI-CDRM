@@ -15,10 +15,7 @@ path('business_summary/', viewscostum.fetch_business_summary, name='business_sum
 path('arkataret-top/', viewscostum.get_highest_operator_organization_id, name='arkataret-top'),
 path('most-valuable-customers/', viewscostum.most_valuable_customers, name='most_valuable_customers'),
 path('most-sold-products/', viewscostum.most_sold_products, name='most_sold_products'),
-path('transaction-stats/', viewscostum.transaction_stats_api, name='transaction-stats'),
-path('retention-rate/', viewscostum.retention_rate_view, name='retention_rate'),
-path('repeat-purchase-rate-view/', viewscostum.repeat_purchase_rate_view, name='repeat_purchase_rate_view'),
-path('customer-lifetime-value-view/', viewscostum.customer_lifetime_value_view, name='customer_lifetime_value_view'),
+path('fetch-all-users-summary/', viewscostum.fetch_all_users_summary, name='fetch_all_users_summary'),
 
     #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 path('', views.index, name="index"),
